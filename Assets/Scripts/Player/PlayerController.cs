@@ -30,13 +30,15 @@ public class PlayerController : MonoBehaviour
         // Starting state should be invisible
         // playerState = PlayerState.Invisible;
 
-        EnterLevel(this.transform);
+
     }
 
     private void Start()
     {
         // Sub
         LevelEvents.instance.onLevelEnter += EnterLevel;
+
+        EnterLevel(this.transform);
     }
 
     private void OnDestroy()
