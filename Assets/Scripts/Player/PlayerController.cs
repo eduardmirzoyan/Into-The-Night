@@ -10,62 +10,71 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private MovementHandler movementHandler;
     [SerializeField] private AnimationHandler animationHandler;
-    [SerializeField] private InteractionHandler interactionHandler;
     [SerializeField] private DamageHandler damageHandler;
     [SerializeField] private JuiceHandler juiceHandler;
 
     [Header("Data")]
     [SerializeField] private PlayerState playerState;
 
+    public static PlayerController instance;
     private void Awake()
     {
+        // Singleton logic
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
+
         // Get refs
         inputHandler = GetComponent<InputHandler>();
         movementHandler = GetComponent<MovementHandler>();
         animationHandler = GetComponent<AnimationHandler>();
-        interactionHandler = GetComponent<InteractionHandler>();
         damageHandler = GetComponent<DamageHandler>();
         juiceHandler = GetComponent<JuiceHandler>();
-
-        // Starting state should be invisible
-        // playerState = PlayerState.Invisible;
-
-
     }
 
     private void Start()
     {
+        // Starting state should be Idle
+        playerState = PlayerState.Idle;
+
         // Sub
         LevelEvents.instance.onLevelEnter += EnterLevel;
-
-        EnterLevel(this.transform);
+        LevelEvents.instance.onLevelExit += ExitLevel;
     }
 
     private void OnDestroy()
     {
         // Unsub
         LevelEvents.instance.onLevelEnter -= EnterLevel;
+        LevelEvents.instance.onLevelExit -= ExitLevel;
     }
 
-    private void EnterLevel(Transform playerTransform)
+    private void EnterLevel()
     {
-        if (this.transform == playerTransform)
-        {
-            // Change states
-            playerState = PlayerState.Enter;
-            animationHandler.ChangeAnimation(playerState.ToString());
-        }
+        // Change states
+        playerState = PlayerState.Enter;
+        animationHandler.ChangeAnimation(playerState.ToString());
+    }
 
+    private void ExitLevel()
+    {
+        // Change states
+        playerState = PlayerState.Exit;
+        animationHandler.ChangeAnimation(playerState.ToString());
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check for death
-        if (playerState != PlayerState.Dead && damageHandler.IsHurt())
+        if (playerState != PlayerState.Dead && damageHandler.IsDead())
         {
             // Stop moving
-            movementHandler.Die();
+            // movementHandler.Die();
+            movementHandler.Stop();
 
             // Stop sound
             AudioManager.instance.Stop("Run");
@@ -74,13 +83,13 @@ public class PlayerController : MonoBehaviour
             animationHandler.ChangeAnimation("Dead");
 
             // Play sound
-            AudioManager.instance.Play("Hurt");
-
-            // Trigger event
-            LevelEvents.instance.TriggerOnPlayerDeath();
+            AudioManager.instance.Play("Dead");
 
             // Change states
             playerState = PlayerState.Dead;
+
+            // Restart level
+            LevelManager.instance.Respawn();
         }
 
         switch (playerState)
@@ -95,28 +104,6 @@ public class PlayerController : MonoBehaviour
 
                 // Handle crouching
                 HandleCrouching();
-
-                // Handle interacting
-                HandleInteracting();
-
-                // Check for interacting
-                if (interactionHandler.CanExit())
-                {
-                    // Stop moving
-                    movementHandler.Stop();
-
-                    // Don't get hit
-                    damageHandler.SetInvincible(true);
-
-                    // Trigger event
-                    LevelManager.instance.ExitLevel();
-
-                    // Change states
-                    playerState = PlayerState.Exit;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
 
                 // Check for running
                 if (movementHandler.IsRunning())
@@ -181,34 +168,6 @@ public class PlayerController : MonoBehaviour
 
                 // Handle crouching
                 HandleCrouching();
-
-                // Handle interacting
-                HandleInteracting();
-
-                // Check for interacting
-                if (interactionHandler.CanExit())
-                {
-                    // Stop moving
-                    movementHandler.Stop();
-
-                    // Don't get hit
-                    damageHandler.SetInvincible(true);
-
-                    // Stop particles
-                    // juiceHandler.ToggleRunning(false);
-
-                    // Stop sound
-                    AudioManager.instance.Stop("Run");
-
-                    // Change states
-                    playerState = PlayerState.Exit;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-
-                    // Trigger event
-                    LevelManager.instance.ExitLevel();
-                }
 
                 // Check for idling
                 if (!movementHandler.IsRunning())
@@ -580,25 +539,28 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerState.Exit:
 
-                // When animation is over
-                if (animationHandler.IsFinished())
-                {
-                    // Change states
-                    playerState = PlayerState.Invisible;
+                // Walk out of the scene
+                movementHandler.MoveRight();
 
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
+                // // When animation is over
+                // if (animationHandler.IsFinished())
+                // {
+                //     // Change states
+                //     playerState = PlayerState.Invisible;
+
+                //     // Change animation
+                //     animationHandler.ChangeAnimation(playerState.ToString());
+                // }
 
                 break;
             case PlayerState.Enter:
 
+                // Walk into the scene
+                movementHandler.MoveRight();
+
                 // When animation is over...
                 if (animationHandler.IsFinished())
                 {
-                    // Trigger event
-                    // LevelEvents.instance.TriggerOnLockEntrance();
-
                     // Change states
                     playerState = PlayerState.Idle;
 
@@ -610,6 +572,16 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Dead:
 
                 // Do nothing...
+
+                // If we are revived
+                if (!damageHandler.IsDead())
+                {
+                    // Change states
+                    playerState = PlayerState.Idle;
+
+                    // Change animation
+                    animationHandler.ChangeAnimation(playerState.ToString());
+                }
 
                 break;
             case PlayerState.Invisible:
@@ -639,11 +611,6 @@ public class PlayerController : MonoBehaviour
     {
         if (inputHandler.GetCrouchKey()) movementHandler.StartCrouch();
         else movementHandler.EndCrouch();
-    }
-
-    private void HandleInteracting()
-    {
-        if (inputHandler.GetInteractKeyDown()) interactionHandler.InteractWithSurroundings();
     }
 
     private void HandleDropping()

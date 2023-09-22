@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8776d5280ada63c4684af6e220ae6383, type: 3}
   m_Name: Controls
   m_EditorClassIdentifier: 
-  moveRightKey: 275
-  moveLeftKey: 276
+  moveRightKey: 100
+  moveLeftKey: 97
   jumpKey: 32
-  crouchKey: 274
-  interactKey: 273
+  crouchKey: 115
+  interactKey: 119
   rollKey: 304

@@ -14,14 +14,14 @@ TagManager:
   - Ground
   - Player
   - Platform
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - InteractPlatform
+  - Interactable
+  - Decor
+  - Trigger
+  - Mouse
+  - Spikes
+  - Enemy
+  - InteractGround
   - 
   - 
   - 
@@ -43,6 +43,12 @@ TagManager:
     locked: 0
   - name: Environment
     uniqueID: 3453488749
+    locked: 0
+  - name: Decor
+    uniqueID: 2241175269
+    locked: 0
+  - name: Enemy
+    uniqueID: 606289487
     locked: 0
   - name: Player
     uniqueID: 1819952793

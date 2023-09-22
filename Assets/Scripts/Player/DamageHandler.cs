@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class DamageHandler : MonoBehaviour
 {
-    [Header("Components")]
+    [Header("Static Data")]
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    [Header("Data")]
-    [SerializeField] private bool isHurt;
+    [Header("Dynamic Data")]
+    [SerializeField] private bool isDead;
     [SerializeField] private bool isInvincible;
 
     [Header("Settings")]
     [SerializeField] private Material flashMaterial;
     [SerializeField] private float hitDuration;
-
-    [Header("Debugging")]
-    [SerializeField] private bool debugMode;
 
     private Material originalMaterial;
     private Coroutine flashRoutine;
@@ -30,41 +27,40 @@ public class DamageHandler : MonoBehaviour
         originalMaterial = spriteRenderer.material;
     }
 
-    public bool IsHurt() => isHurt;
+    public bool IsDead() => isDead;
 
-    public void Hurt()
+    public void Kill()
     {
         // Do nothing
         if (isInvincible) return;
 
         // If not already hit
-        if (!isHurt)
+        if (!isDead)
         {
             // Play effect
             HitEffect();
 
-            // Debug
-            if (debugMode) print("HURT!");
-
             // Set flag
-            isHurt = true;
+            isInvincible = true;
+            isDead = true;
         }
     }
 
-    public void SetInvincible(bool state)
+    public void Revive()
     {
-        isInvincible = state;
+        if (isDead)
+        {
+            // Reset state
+            isInvincible = false;
+            isDead = false;
+        }
     }
 
     private void HitEffect()
     {
         // If the flashRoutine is not null, then it is currently running.
         if (flashRoutine != null)
-        {
-            // In this case, we should stop it first.
-            // Multiple FlashRoutines the same time would cause bugs.
             StopCoroutine(flashRoutine);
-        }
 
         // Start the Coroutine, and store the reference for it.
         flashRoutine = StartCoroutine(HitRoutine());

@@ -7,13 +7,11 @@ public class TransitionManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform maskTransform;
-    [SerializeField] private Transform backgroundTransform;
 
     [Header("Data")]
     [SerializeField] private float transitionTime = 1f;
     private Coroutine coroutine;
-    
+
     public static TransitionManager instance;
     private void Awake()
     {
@@ -33,20 +31,8 @@ public class TransitionManager : MonoBehaviour
         return SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void OpenScene(Vector3 location)
+    public void OpenScene()
     {
-        // Save child location
-        var temp = backgroundTransform.position;
-
-        // Center tranform on location
-        if (location != Vector3.zero)
-            maskTransform.position = Camera.main.WorldToScreenPoint(location);
-        else
-            maskTransform.localPosition = Vector3.zero;
-
-        // Restore child location
-        backgroundTransform.position = temp;
-
         // Play animation
         animator.Play("Transition In");
 
@@ -55,14 +41,14 @@ public class TransitionManager : MonoBehaviour
             // Play title music
             AudioManager.instance.PlayMusic("Background " + 0);
         }
-        else 
+        else
         {
             // Play background music
             AudioManager.instance.PlayMusic("Background " + 1);
         }
     }
 
-    public void LoadNextScene(Vector3 location)
+    public void LoadNextScene()
     {
         // Stop any background music
         if (GetSceneIndex() == 0)
@@ -80,10 +66,10 @@ public class TransitionManager : MonoBehaviour
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to next scene
-        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1, location));
+        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    public void LoadSelectedScene(int buildIndex, Vector3 location)
+    public void LoadSelectedScene(int buildIndex)
     {
         // Stop any background music
         if (GetSceneIndex() == 0)
@@ -101,10 +87,10 @@ public class TransitionManager : MonoBehaviour
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to next scene
-        coroutine = StartCoroutine(LoadScene(buildIndex, location));
+        coroutine = StartCoroutine(LoadScene(buildIndex));
     }
 
-    public void ReloadScene(Vector3 location)
+    public void ReloadScene()
     {
         // Stop any background music
         if (GetSceneIndex() == 0)
@@ -117,15 +103,15 @@ public class TransitionManager : MonoBehaviour
             // Play background music
             AudioManager.instance.StopMusic("Background " + 1);
         }
-        
+
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to same scene
-        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, location));
+        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex));
     }
 
-    public void LoadMainMenuScene(Vector3 location)
+    public void LoadMainMenuScene()
     {
         // Stop any background music
         if (GetSceneIndex() == 0)
@@ -143,23 +129,11 @@ public class TransitionManager : MonoBehaviour
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to main menu, scene 0
-        coroutine = StartCoroutine(LoadScene(0, location));
+        coroutine = StartCoroutine(LoadScene(0));
     }
 
-    private IEnumerator LoadScene(int index, Vector3 location)
+    private IEnumerator LoadScene(int index)
     {
-        // Save child location
-        var temp = backgroundTransform.position;
-
-        // Move transform
-        if (location != Vector3.zero)
-            maskTransform.position = Camera.main.WorldToScreenPoint(location);
-        else
-            maskTransform.localPosition = Vector3.zero;
-
-        // Restore child location
-        backgroundTransform.position = temp;
-
         // Play animation
         animator.Play("Transition Out");
 
@@ -173,7 +147,7 @@ public class TransitionManager : MonoBehaviour
             // Load scene
             SceneManager.LoadScene(index);
         }
-        else 
+        else
         {
             // Debug
             print("Could not find scene " + index);
@@ -182,7 +156,7 @@ public class TransitionManager : MonoBehaviour
             SceneManager.LoadScene(0);
         }
 
-        
+
     }
 
     public float GetTransitionTime() => transitionTime;

@@ -7,7 +7,6 @@ public class MovementHandler : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private Collider2D collider2d;
-    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PlatformHandler platformHandler;
 
     [Header("Time Data")]
@@ -33,7 +32,6 @@ public class MovementHandler : MonoBehaviour
     [SerializeField, ReadOnly] private bool isWallSliding;
     [SerializeField, ReadOnly] private bool isWallHanging;
     [SerializeField, ReadOnly] private bool isMantling;
-    [SerializeField, ReadOnly] private bool isDead;
 
     [Header("Settings")]
     [SerializeField] private LayerMask wallLayer;
@@ -51,7 +49,6 @@ public class MovementHandler : MonoBehaviour
         // Get refs
         body = GetComponentInChildren<Rigidbody2D>();
         collider2d = GetComponentInChildren<Collider2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         platformHandler = GetComponent<PlatformHandler>();
 
         // Set default states
@@ -62,17 +59,6 @@ public class MovementHandler : MonoBehaviour
     }
 
     #region Input
-
-    public void Die()
-    {
-        // Disable any other states
-        isMantling = false;
-        isWallHanging = false;
-        isWallSliding = false;
-
-        // Set flag
-        isDead = true;
-    }
 
     public void Stop()
     {
@@ -207,7 +193,7 @@ public class MovementHandler : MonoBehaviour
     private void CheckWallHanging()
     {
         // On wall but no ledge LAST frame => now on wall and on ledge THIS frame
-        if (IsFalling() && onWallLastFrame != 0 && !onLedgeLastFrame && onWallThisFrame != 0 && onLedgeThisFrame)
+        if (stats.enableWallHanging && IsFalling() && onWallLastFrame != 0 && !onLedgeLastFrame && onWallThisFrame != 0 && onLedgeThisFrame)
         {
             // Toggle hanging
             isWallHanging = true;
@@ -217,7 +203,7 @@ public class MovementHandler : MonoBehaviour
     private void CheckWallSliding()
     {
         // You must be falling, on ledge and wall, and moving into the wall
-        if (!isWallHanging && IsFalling() && onLedgeThisFrame && onWallThisFrame != 0 && onWallThisFrame == moveRequest)
+        if (stats.enableWallsliding && !isWallHanging && IsFalling() && onLedgeThisFrame && onWallThisFrame != 0 && onWallThisFrame == moveRequest)
         {
             isWallSliding = true;
         }
@@ -230,16 +216,6 @@ public class MovementHandler : MonoBehaviour
 
     private void HandleHorizontalMovement()
     {
-        // Check if player is dead
-        if (isDead)
-        {
-            // Decelerate to 0, slowly
-            currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, 0f, stats.deathDeceleration * Time.deltaTime);
-
-            // Finish
-            return;
-        }
-
         // Check if player is on wall
         if (isWallSliding || isWallHanging || isMantling)
         {
@@ -254,7 +230,7 @@ public class MovementHandler : MonoBehaviour
         if (moveRequest != 0)
         {
             // Calculate target speed
-            float targetSpeed = 0f;
+            float targetSpeed;
 
             // Check if player is crouching
             if (crouchRequest)
@@ -306,7 +282,7 @@ public class MovementHandler : MonoBehaviour
                 isJumping = true;
             }
             // If you are on a wall sliding or wallhaning, then wall jump instead
-            else if (onWallThisFrame != 0 || WallJumpWithinCoyote())
+            else if (isWallSliding || isWallHanging || WallJumpWithinCoyote())
             {
                 // Wall jump
                 currentVelocity = Vector2.Scale(stats.wallJumpPower, new Vector2(-onWallThisFrame, 1));

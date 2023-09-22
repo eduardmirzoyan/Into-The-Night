@@ -16,17 +16,20 @@ MonoBehaviour:
   acceleration: 60
   groundDeceleration: 60
   airDeceleration: 30
-  jumpPower: 14
-  earlyCancelFactor: 2.5
+  jumpPower: 12
+  earlyCancelFactor: 2
   coyoteTime: 0.1
   jumpBuffer: 0.15
   maxCrouchWalkSpeed: 2
+  enableWallsliding: 0
   maxWallSlideSpeed: 2
   wallSlideAcceleration: 30
+  enableWallJumping: 0
   wallJumpPower: {x: 10, y: 10}
-  risingGravity: 40
-  fallingGravity: 60
-  maxFallSpeed: 40
+  enableWallHanging: 0
+  risingGravity: 30
+  fallingGravity: 80
+  maxFallSpeed: 20
   rollDuration: 0.5
   maxRollSpeed: 6
   deathDeceleration: 30

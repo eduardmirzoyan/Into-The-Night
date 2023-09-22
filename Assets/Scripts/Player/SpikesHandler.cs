@@ -5,26 +5,25 @@ using UnityEngine;
 public class SpikesHandler : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private MovementHandler movementHandler;
     [SerializeField] private DamageHandler damageHandler;
 
     private void Awake()
     {
         // Get refs
-        movementHandler = GetComponent<MovementHandler>();
         damageHandler = GetComponent<DamageHandler>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        // When you collide with spikes
-        
-        // Make sure you are falling
-        if (movementHandler.IsFalling() && other.tag == "Spikes")
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out Spikes _))
         {
-            // Hurt character
-            damageHandler.Hurt();
+            // When you collide with spikes
+            print("Spiked! :" + other.name);
+
+            // Kill character
+            damageHandler.Kill();
         }
     }
 
-    
+
 }

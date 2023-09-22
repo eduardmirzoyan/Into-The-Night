@@ -21,9 +21,16 @@ public class MovementStats : ScriptableObject
     public float maxCrouchWalkSpeed = 2f;
 
     [Header("Wallsliding")]
+    public bool enableWallsliding = true;
     public float maxWallSlideSpeed = 2f;
     public float wallSlideAcceleration = 30f;
+
+    [Header("Wallsliding")]
+    public bool enableWallJumping = true;
     public Vector2 wallJumpPower = new Vector2(10, 10);
+
+    [Header("Wallhanging")]
+    public bool enableWallHanging = true;
 
     [Header("Gravity")]
     public float risingGravity = 40f;
@@ -33,7 +40,7 @@ public class MovementStats : ScriptableObject
     [Header("Rolling")]
     public float rollDuration = 0.5f;
     public float maxRollSpeed = 6f;
-    
+
     [Header("Extras")]
     public float deathDeceleration = 30f;
 }

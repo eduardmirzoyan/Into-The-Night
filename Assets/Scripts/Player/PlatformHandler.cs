@@ -21,7 +21,7 @@ public class PlatformHandler : MonoBehaviour
 
     private void Awake()
     {
-        feetCollider = GetComponentInChildren<BoxCollider2D>();
+        // feetCollider = GetComponentInChildren<BoxCollider2D>();
     }
 
     private void Update()

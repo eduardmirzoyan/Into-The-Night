@@ -18,31 +18,31 @@ public class LevelEvents : MonoBehaviour
         instance = this;
     }
 
-    public event Action<Transform> onLevelEnter;
-    public event Action onPlayerDeath;
-    public event Action<Transform> onLevelExit;
+    public event Action onLevelEnter;
+    public event Action onLevelRestart;
+    public event Action onLevelExit;
 
-    public void TriggerOnLevelEnter(Transform playerTransform)
+    public void TriggerOnLevelEnter()
     {
         if (onLevelEnter != null)
         {
-            onLevelEnter(playerTransform);
+            onLevelEnter();
         }
     }
 
-    public void TriggerOnPlayerDeath()
+    public void TriggerOnLevelRestart()
     {
-        if (onPlayerDeath != null)
+        if (onLevelRestart != null)
         {
-            onPlayerDeath();
+            onLevelRestart();
         }
     }
 
-    public void TriggerOnLevelExit(Transform playerTransform)
+    public void TriggerOnLevelExit()
     {
         if (onLevelExit != null)
         {
-            onLevelExit(playerTransform);
+            onLevelExit();
         }
     }
 }
