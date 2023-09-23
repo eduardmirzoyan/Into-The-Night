@@ -174,4 +174,12 @@ MonoBehaviour:
     ignorePause: 0
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Button Click
+    audioClip: {fileID: 8300000, guid: b2f4a18d0b526c24a8a32ad988100e52, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 1
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
   fadeTime: 1

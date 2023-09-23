@@ -76,6 +76,6 @@ public class Lever : MonoBehaviour
         AudioManager.instance.PlaySFX("Lever");
 
         // Shake screen
-        // CameraShake.instance.ScreenShake(0.1f, 0.3f);
+        CameraShake.instance.ScreenShake(3f, 0.15f);
     }
 }

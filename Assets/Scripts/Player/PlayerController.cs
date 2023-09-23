@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum PlayerState { Idle, Run, Rise, Fall, Crouch, Crouchwalk, Wallslide, Wallhang, Mantle, Exit, Enter, Dead, Invisible };
+    private enum PlayerState { Idle, Run, Rise, Fall, Crouch, Crouchwalk, Wallslide, Wallhang, Mantle, Exit, Enter, Dead };
 
     [Header("Components")]
     [SerializeField] private InputHandler inputHandler;
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
         if (playerState != PlayerState.Dead && damageHandler.IsDead())
         {
             // Stop moving
-            // movementHandler.Die();
             movementHandler.Stop();
 
             // Stop sound
@@ -82,9 +81,6 @@ public class PlayerController : MonoBehaviour
 
             // Change animation
             animationHandler.ChangeAnimation("Dead");
-
-            // Play sound
-            AudioManager.instance.PlaySFX("Dead");
 
             // Change states
             playerState = PlayerState.Dead;
@@ -576,11 +572,6 @@ public class PlayerController : MonoBehaviour
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
                 }
-
-                break;
-            case PlayerState.Invisible:
-
-                // Do nothing...
 
                 break;
             default:

@@ -19,10 +19,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         DontDestroyOnLoad(this);
-    }
 
-    private void Start()
-    {
         // Set to default values
         currentLevel = 0;
         currentCheckpoint = Vector3.back;

@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using System.Security.Cryptography;
 
 public class CameraShake : MonoBehaviour
 {
-    private Coroutine coroutine;
+    [SerializeField] private CinemachineVirtualCamera cinemachine;
 
+    private Coroutine coroutine;
     public static CameraShake instance;
     private void Awake()
     {
@@ -16,36 +19,37 @@ public class CameraShake : MonoBehaviour
             return;
         }
         instance = this;
+
+        cinemachine = GetComponent<CinemachineVirtualCamera>();
     }
 
-    public void ScreenShake(float duration, float magnitude)
+    public void ScreenShake(float magnitude, float duration)
     {
         // Start shaking screen
-        if (coroutine != null) StopCoroutine(coroutine);
-        coroutine = StartCoroutine(Shake(duration, magnitude));
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        coroutine = StartCoroutine(Shake(magnitude, duration));
     }
 
-    private IEnumerator Shake(float duration, float magnitude)
+    private IEnumerator Shake(float magnitude, float duration)
     {
-        // Save original position
-        Vector3 originalPosition = transform.localPosition;
+        CinemachineBasicMultiChannelPerlin perlin = cinemachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        perlin.m_AmplitudeGain = magnitude;
 
         // Start timer
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            // Generate random displacement
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
-
-            // Translate
-            transform.localPosition = new Vector3(x, y, originalPosition.z);
+            float intensity = Mathf.Lerp(magnitude, 0f, elapsed / duration);
+            perlin.m_AmplitudeGain = intensity;
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Restore position
-        transform.localPosition = originalPosition;
+        // Restore position and rotation
+        perlin.m_AmplitudeGain = 0f;
+        transform.rotation = Quaternion.identity;
     }
 }

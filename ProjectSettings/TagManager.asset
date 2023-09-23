@@ -55,6 +55,9 @@ TagManager:
   - name: Player
     uniqueID: 1819952793
     locked: 0
+  - name: VFX
+    uniqueID: 853216779
+    locked: 0
   - name: UI
     uniqueID: 2891705279
     locked: 0

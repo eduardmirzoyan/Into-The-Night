@@ -82,6 +82,11 @@ public class LightSensitiveTilemap : MonoBehaviour
         UpdateLightSensitiveTiles(position);
     }
 
+    private void OnMouseEnter()
+    {
+        print("Enter");
+    }
+
     private void UpdateLightSensitiveTiles(Vector3 lightPosition)
     {
         // Check photophilic tiles
