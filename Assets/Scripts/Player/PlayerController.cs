@@ -37,33 +37,34 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        // Starting state should be Idle
-        playerState = PlayerState.Idle;
+        // Get current checkpoint
+        var checkpoint = GameManager.instance.GetCheckpoint();
 
-        // Sub
-        LevelEvents.instance.onLevelEnter += EnterLevel;
-        LevelEvents.instance.onLevelExit += ExitLevel;
-    }
+        // If a checkpoint exists
+        if (checkpoint != Vector3.back)
+        {
+            // Simple relocate there, and idle
+            transform.position = checkpoint;
 
-    private void OnDestroy()
-    {
-        // Unsub
-        LevelEvents.instance.onLevelEnter -= EnterLevel;
-        LevelEvents.instance.onLevelExit -= ExitLevel;
-    }
+            // Set state
+            playerState = PlayerState.Idle;
 
-    private void EnterLevel()
-    {
-        // Change states
-        playerState = PlayerState.Enter;
-        animationHandler.ChangeAnimation(playerState.ToString());
-    }
+            // Set animation
+            animationHandler.ChangeAnimation(playerState.ToString());
+        }
+        else
+        {
+            // Do walk in animations from where you are
 
-    private void ExitLevel()
-    {
-        // Change states
-        playerState = PlayerState.Exit;
-        animationHandler.ChangeAnimation(playerState.ToString());
+            // Set state
+            playerState = PlayerState.Enter;
+
+            // Set animation
+            animationHandler.ChangeAnimation(playerState.ToString());
+        }
+
+        // Open scene
+        TransitionManager.instance.OpenScene();
     }
 
     // Update is called once per frame
@@ -77,19 +78,19 @@ public class PlayerController : MonoBehaviour
             movementHandler.Stop();
 
             // Stop sound
-            AudioManager.instance.Stop("Run");
+            AudioManager.instance.StopSFX("Run");
 
             // Change animation
             animationHandler.ChangeAnimation("Dead");
 
             // Play sound
-            AudioManager.instance.Play("Dead");
+            AudioManager.instance.PlaySFX("Dead");
 
             // Change states
             playerState = PlayerState.Dead;
 
-            // Restart level
-            LevelManager.instance.Respawn();
+            // Restart in a bit
+            StartCoroutine(DelayedRestart());
         }
 
         switch (playerState)
@@ -109,10 +110,10 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsRunning())
                 {
                     // Play particles
-                    // juiceHandler.ToggleRunning(true);
+                    juiceHandler.StartRun();
 
                     // Play sound
-                    AudioManager.instance.Play("Run");
+                    InvokeRepeating("FootstepsSFX", 0f, 0.33f);
 
                     // Change states
                     playerState = PlayerState.Run;
@@ -137,8 +138,11 @@ public class PlayerController : MonoBehaviour
                 // Check for jumping
                 if (!movementHandler.IsGrounded())
                 {
+                    // Play effect
+                    juiceHandler.PlayJump();
+
                     // Play sound
-                    AudioManager.instance.Play("Jump");
+                    AudioManager.instance.PlaySFX("Jump");
 
                     // Change states
                     playerState = PlayerState.Rise;
@@ -173,10 +177,10 @@ public class PlayerController : MonoBehaviour
                 if (!movementHandler.IsRunning())
                 {
                     // Stop particles
-                    // juiceHandler.ToggleRunning(false);
+                    juiceHandler.StopRun();
 
                     // Stop sound
-                    AudioManager.instance.Stop("Run");
+                    CancelInvoke("FootstepsSFX");
 
                     // Change states
                     playerState = PlayerState.Idle;
@@ -189,10 +193,10 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsCrouching())
                 {
                     // Stop particles
-                    // juiceHandler.ToggleRunning(false);
+                    juiceHandler.StopRun();
 
                     // Stop sound
-                    AudioManager.instance.Stop("Run");
+                    CancelInvoke("FootstepsSFX");
 
                     // Change states
                     playerState = PlayerState.Crouchwalk;
@@ -205,13 +209,16 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsRising())
                 {
                     // Stop particles
-                    // juiceHandler.ToggleRunning(false);
+                    juiceHandler.StopRun();
 
                     // Stop sound
-                    AudioManager.instance.Stop("Run");
+                    CancelInvoke("FootstepsSFX");
+
+                    // Play effect
+                    juiceHandler.PlayJump();
 
                     // Play sound
-                    AudioManager.instance.Play("Jump");
+                    AudioManager.instance.PlaySFX("Jump");
 
                     // Change states
                     playerState = PlayerState.Rise;
@@ -224,10 +231,10 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsFalling())
                 {
                     // Stop particles
-                    // juiceHandler.ToggleRunning(false);
+                    juiceHandler.StopRun();
 
                     // Stop sound
-                    AudioManager.instance.Stop("Run");
+                    CancelInvoke("FootstepsSFX");
 
                     // Change states
                     playerState = PlayerState.Fall;
@@ -281,10 +288,10 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsGrounded())
                 {
                     // Play particles
-                    // juiceHandler.PlayLand();
+                    juiceHandler.PlayLand();
 
                     // Play sound
-                    AudioManager.instance.Play("Land");
+                    AudioManager.instance.PlaySFX("Land");
 
                     // Change states
                     playerState = PlayerState.Idle;
@@ -296,8 +303,11 @@ public class PlayerController : MonoBehaviour
                 // Check for coyote jumps
                 if (movementHandler.IsRising())
                 {
+                    // Play effect
+                    juiceHandler.PlayJump();
+
                     // Play sound
-                    AudioManager.instance.Play("Jump");
+                    AudioManager.instance.PlaySFX("Jump");
 
                     // Change states
                     playerState = PlayerState.Rise;
@@ -310,7 +320,7 @@ public class PlayerController : MonoBehaviour
                 if (movementHandler.IsTouchingLedge())
                 {
                     // Play sound
-                    AudioManager.instance.Play("Grab Ledge");
+                    AudioManager.instance.PlaySFX("Grab Ledge");
 
                     // Change states
                     playerState = PlayerState.Wallhang;
@@ -322,9 +332,6 @@ public class PlayerController : MonoBehaviour
                 // Handle wall sliding
                 if (movementHandler.IsWallSliding())
                 {
-                    // Play particles
-                    // juiceHandler.ToggleSlide(true);
-
                     // Change states
                     playerState = PlayerState.Wallslide;
 
@@ -409,10 +416,10 @@ public class PlayerController : MonoBehaviour
                     movementHandler.EndCrouch();
 
                     // Play particles
-                    // juiceHandler.ToggleRunning(true);
+                    juiceHandler.StartRun();
 
                     // Play sound
-                    AudioManager.instance.Play("Run");
+                    InvokeRepeating("FootstepsSFX", 0f, 0.33f);
 
                     // Change states
                     playerState = PlayerState.Run;
@@ -446,11 +453,11 @@ public class PlayerController : MonoBehaviour
                 // Check for jump
                 if (movementHandler.IsRising())
                 {
-                    // Stop particles
-                    // juiceHandler.ToggleSlide(false);
+                    // Play effect
+                    juiceHandler.PlayJump();
 
                     // Play sound
-                    AudioManager.instance.Play("Jump");
+                    AudioManager.instance.PlaySFX("Jump");
 
                     // Change states
                     playerState = PlayerState.Rise;
@@ -462,9 +469,6 @@ public class PlayerController : MonoBehaviour
                 // Check for fall
                 if (!movementHandler.IsWallSliding())
                 {
-                    // Stop particles
-                    // juiceHandler.ToggleSlide(false);
-
                     // Change states
                     playerState = PlayerState.Fall;
 
@@ -475,9 +479,6 @@ public class PlayerController : MonoBehaviour
                 // Check for idle
                 if (movementHandler.IsGrounded())
                 {
-                    // Stop particles
-                    // juiceHandler.ToggleSlide(false);
-
                     // Change states
                     playerState = PlayerState.Idle;
 
@@ -497,8 +498,11 @@ public class PlayerController : MonoBehaviour
                 // Check for jump
                 if (movementHandler.IsRising())
                 {
+                    // Play effect
+                    juiceHandler.PlayJump();
+
                     // Play sound
-                    AudioManager.instance.Play("Jump");
+                    AudioManager.instance.PlaySFX("Jump");
 
                     // Change states
                     playerState = PlayerState.Rise;
@@ -542,16 +546,6 @@ public class PlayerController : MonoBehaviour
                 // Walk out of the scene
                 movementHandler.MoveRight();
 
-                // // When animation is over
-                // if (animationHandler.IsFinished())
-                // {
-                //     // Change states
-                //     playerState = PlayerState.Invisible;
-
-                //     // Change animation
-                //     animationHandler.ChangeAnimation(playerState.ToString());
-                // }
-
                 break;
             case PlayerState.Enter:
 
@@ -593,6 +587,18 @@ public class PlayerController : MonoBehaviour
                 // Throw error
                 throw new System.Exception("STATE NOT IMPLEMENTED.");
         }
+    }
+
+    private void FootstepsSFX()
+    {
+        AudioManager.instance.PlaySFX("Run");
+    }
+
+    private IEnumerator DelayedRestart()
+    {
+        yield return new WaitForSeconds(1f);
+
+        GameManager.instance.RestartLevel();
     }
 
     private void HandleRunning()

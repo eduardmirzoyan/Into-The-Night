@@ -28,8 +28,16 @@ public class MouseLight : MonoBehaviour
         light2D.pointLightOuterRadius = radius;
     }
 
+    private void Start()
+    {
+        transform.position = PlayerController.instance.transform.position;
+    }
+
     void Update()
     {
+        if (PauseManager.instance.isPaused)
+            return;
+
         FollowMouse();
         Pulsate();
     }

@@ -39,12 +39,12 @@ public class TransitionManager : MonoBehaviour
         if (GetSceneIndex() == 0)
         {
             // Play title music
-            AudioManager.instance.PlayMusic("Background " + 0);
+            AudioManager.instance.PlayOST("Background " + 0);
         }
         else
         {
             // Play background music
-            AudioManager.instance.PlayMusic("Background " + 1);
+            AudioManager.instance.PlayOST("Background " + 1);
         }
     }
 
@@ -54,12 +54,12 @@ public class TransitionManager : MonoBehaviour
         if (GetSceneIndex() == 0)
         {
             // Play title music
-            AudioManager.instance.StopMusic("Background " + 0);
+            AudioManager.instance.StopOST("Background " + 0);
         }
         else
         {
             // Play background music
-            AudioManager.instance.StopMusic("Background " + 1);
+            AudioManager.instance.StopOST("Background " + 1);
         }
 
         // Stop any transition if one was happening
@@ -75,12 +75,12 @@ public class TransitionManager : MonoBehaviour
         if (GetSceneIndex() == 0)
         {
             // Play title music
-            AudioManager.instance.StopMusic("Background " + 0);
+            AudioManager.instance.StopOST("Background " + 0);
         }
         else
         {
             // Play background music
-            AudioManager.instance.StopMusic("Background " + 1);
+            AudioManager.instance.StopOST("Background " + 1);
         }
 
         // Stop any transition if one was happening
@@ -96,12 +96,12 @@ public class TransitionManager : MonoBehaviour
         if (GetSceneIndex() == 0)
         {
             // Play title music
-            AudioManager.instance.StopMusic("Background " + 0);
+            AudioManager.instance.StopOST("Background " + 0);
         }
         else
         {
             // Play background music
-            AudioManager.instance.StopMusic("Background " + 1);
+            AudioManager.instance.StopOST("Background " + 1);
         }
 
         // Stop any transition if one was happening
@@ -117,12 +117,12 @@ public class TransitionManager : MonoBehaviour
         if (GetSceneIndex() == 0)
         {
             // Play title music
-            AudioManager.instance.StopMusic("Background " + 0);
+            AudioManager.instance.StopOST("Background " + 0);
         }
         else
         {
             // Play background music
-            AudioManager.instance.StopMusic("Background " + 1);
+            AudioManager.instance.StopOST("Background " + 1);
         }
 
         // Stop any transition if one was happening

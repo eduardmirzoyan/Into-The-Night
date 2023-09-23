@@ -6,7 +6,12 @@ public class ExitHandler : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Exit level
-        LevelManager.instance.ExitLevel();
+        if (other.tag != "Player") return;
+
+        // Play sound
+        AudioManager.instance.PlaySFX("Complete Level");
+
+        // Go to next level
+        GameManager.instance.NextLevel();
     }
 }

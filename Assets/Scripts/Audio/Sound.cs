@@ -8,16 +8,16 @@ public class Sound
 {
     public string name;
     public AudioClip audioClip;
-    
+
     [Range(0, 1f)]
-    public float volume;
-    
+    public float volume = 1f;
+
     [Range(-1f, 1f)]
-    public float pitch;
+    public float pitch = 1f;
 
-    public bool loop;
+    public bool loop = false;
 
-    public bool ignorePause;
+    public bool ignorePause = false;
 
     [HideInInspector]
     public AudioSource audioSource;

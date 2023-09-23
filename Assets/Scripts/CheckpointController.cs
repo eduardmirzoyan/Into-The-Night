@@ -30,10 +30,15 @@ public class CheckpointController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.tag != "Player") return;
+
         if (!isActive)
         {
             // Update checkpoint
-            LevelManager.instance.UpdateCheckpoint(other.transform.position);
+            GameManager.instance.SetCheckpoint(other.transform.position);
+
+            // Play sound
+            AudioManager.instance.PlaySFX("Checkpoint Fanfare");
 
             // Play animation
             animator.Play("Active");

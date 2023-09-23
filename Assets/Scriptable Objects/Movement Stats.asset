@@ -19,7 +19,7 @@ MonoBehaviour:
   jumpPower: 12
   earlyCancelFactor: 2
   coyoteTime: 0.1
-  jumpBuffer: 0.15
+  jumpBuffer: 0.2
   maxCrouchWalkSpeed: 2
   enableWallsliding: 0
   maxWallSlideSpeed: 2

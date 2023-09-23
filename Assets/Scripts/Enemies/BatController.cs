@@ -5,40 +5,45 @@ using UnityEngine;
 public class BatController : MonoBehaviour
 {
     private enum BatState { Asleep, AggroPlayer, AggroLight, Searching, Returning };
-    private enum Target { None, Player, Light, Home }
 
     [Header("Components")]
     [SerializeField] private AnimationHandler animationHandler;
     [SerializeField] private Collider2D collider2d;
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private SpriteRenderer indicatorRenderer;
-    [SerializeField] private SpriteRenderer rangeRenderer;
-
-    [Header("Data")]
-    [SerializeField] private BatState batState;
-    [SerializeField] private Target target;
-    [SerializeField] private Vector3 homePosition;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform lightTransform;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private Sprite eyeSprite;
+    [SerializeField] private Sprite homeSprite;
+    [SerializeField] private Color chasePlayerColor;
+    [SerializeField] private Color chaseLightColor;
+    [SerializeField] private Color chaseHomeColor;
 
-    [Header("Settings")]
-    [SerializeField] private float aggroRange = 5f;
+    [Header("Asleep Settings")]
+    [SerializeField] private float aggroRange = 4f;
+
+    [Header("Search Settings")]
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float returnRange = 0.1f;
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float bufferDuration = 1f;
-    [SerializeField] private float bufferTimer;
-    [SerializeField] private float searchDuration = 5f;
-    [SerializeField] private float searchTimer;
+    [SerializeField] private float searchDuration = 2f;
+
+    [Header("Move Settings")]
+    [SerializeField] private float maxSpeed = 4f;
+    [SerializeField] private float acceleration = 10f;
+    [SerializeField] private float deceleration = 10f;
+    [SerializeField] private float decelerateDistance = 2f;
+
+    [Header("Debugging")]
+    [SerializeField, ReadOnly] private BatState batState;
+    [SerializeField, ReadOnly] private Vector3 homePosition;
+    [SerializeField, ReadOnly] private Vector2 currentVelocity;
+    [SerializeField, ReadOnly] private float searchTimer;
 
     private void Awake()
     {
         animationHandler = GetComponent<AnimationHandler>();
         collider2d = GetComponentInChildren<Collider2D>();
         rigidbody2d = GetComponentInChildren<Rigidbody2D>();
-
-        // Set size based on range
-        rangeRenderer.transform.localScale = Vector3.one * aggroRange;
     }
 
     private void Start()
@@ -48,11 +53,9 @@ public class BatController : MonoBehaviour
         lightTransform = MouseLight.instance.transform;
 
         // Set start state
-        batState = BatState.Asleep;
+        lineRenderer.enabled = false;
         animationHandler.ChangeAnimation("Asleep");
-
-        // No target
-        target = Target.None;
+        batState = BatState.Asleep;
 
         // Find a perching spot from where it was spawned in
         FindPerchingSpot();
@@ -64,69 +67,56 @@ public class BatController : MonoBehaviour
         {
             case BatState.Asleep:
 
-                // Search for any targets
-                SearchForPlayer();
-
-                // If a target was found
-                if (target == Target.Player)
+                // If player gets too close
+                if (Vector3.Distance(transform.position, playerTransform.position) <= aggroRange && PlayerInLineOfSight())
                 {
-                    // Hide ring
-                    // aggroRangeDisplay.enabled = false;
+                    // Set timer
+                    searchTimer = searchDuration;
 
-                    // Red indicator
-                    indicatorRenderer.color = Color.red;
-
-                    // Set buffer
-                    bufferTimer = bufferDuration;
+                    // Enable collision
+                    collider2d.enabled = true;
 
                     // Play sound
-                    AudioManager.instance.Play("Bat Aggro");
+                    AudioManager.instance.PlaySFX("Bat Aggro");
 
                     // Change animation
                     animationHandler.ChangeAnimation("Awake");
 
                     // Change state
-                    batState = BatState.AggroPlayer;
+                    batState = BatState.Searching;
                 }
 
                 break;
             case BatState.AggroPlayer:
 
-                // Wait
-                if (bufferTimer > 0)
-                {
-                    bufferTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    // Chase the target
-                    ChaseTarget(target);
-                }
+                // Chase player
+                ChaseTarget(playerTransform.position);
 
                 // Look for light
-                SearchForLight();
-
-                // If target changed
-                if (target == Target.Light)
+                if (LightInLineOfSight())
                 {
-                    // Set buffer
-                    bufferTimer = bufferDuration;
-
                     // Red indicator
                     indicatorRenderer.color = Color.yellow;
+
+                    // Show path
+                    lineRenderer.enabled = true;
+                    lineRenderer.endColor = chaseLightColor;
 
                     // Change state
                     batState = BatState.AggroLight;
                 }
 
-                // If something obstructs view, stop aggro
-                if (Physics2D.Linecast(transform.position, playerTransform.position, groundLayer))
+                // If something obstructs view or off-screen, stop aggro
+                if (Physics2D.Linecast(transform.position, playerTransform.position, groundLayer) || IsOffScreen())
                 {
                     // Stop moving
                     rigidbody2d.velocity = Vector2.zero;
 
                     // Change indicator
                     indicatorRenderer.color = Color.white;
+
+                    // Hide path
+                    lineRenderer.enabled = false;
 
                     // Set timer
                     searchTimer = searchDuration;
@@ -138,25 +128,20 @@ public class BatController : MonoBehaviour
                 break;
             case BatState.AggroLight:
 
-                // Wait
-                if (bufferTimer > 0)
-                {
-                    bufferTimer -= Time.deltaTime;
-                }
-                else
-                {
-                    // Chase the target
-                    ChaseTarget(target);
-                }
+                // Chase light
+                ChaseTarget(lightTransform.position);
 
-                // If something obstructs view, stop aggro
-                if (Physics2D.Linecast(transform.position, lightTransform.position, groundLayer))
+                // If something obstructs view or off-screen, stop aggro
+                if (Physics2D.Linecast(transform.position, lightTransform.position, groundLayer) || IsOffScreen())
                 {
                     // Stop moving
                     rigidbody2d.velocity = Vector2.zero;
 
                     // Change indicator
                     indicatorRenderer.color = Color.white;
+
+                    // Hide path
+                    lineRenderer.enabled = false;
 
                     // Set timer
                     searchTimer = searchDuration;
@@ -169,9 +154,34 @@ public class BatController : MonoBehaviour
             case BatState.Searching:
 
                 // Be aware of targets
-                SearchForPlayer();
-                SearchForLight();
 
+                if (PlayerInLineOfSight())
+                {
+                    // Red indicator
+                    indicatorRenderer.color = Color.red;
+
+                    // Show path
+                    lineRenderer.enabled = true;
+                    lineRenderer.endColor = chasePlayerColor;
+
+                    // Change state
+                    batState = BatState.AggroPlayer;
+                }
+
+                if (LightInLineOfSight())
+                {
+                    // Red indicator
+                    indicatorRenderer.color = Color.yellow;
+
+                    // Show path
+                    lineRenderer.enabled = true;
+                    lineRenderer.endColor = chaseLightColor;
+
+                    // Change state
+                    batState = BatState.AggroLight;
+                }
+
+                // Else count down timer
                 if (searchTimer > 0)
                 {
                     searchTimer -= Time.deltaTime;
@@ -182,10 +192,12 @@ public class BatController : MonoBehaviour
                     collider2d.enabled = false;
 
                     // Change indicator
-                    indicatorRenderer.color = Color.clear;
+                    indicatorRenderer.sprite = homeSprite;
+                    indicatorRenderer.color = Color.white;
 
-                    // Change aggro
-                    target = Target.Home;
+                    // Hide path
+                    lineRenderer.enabled = true;
+                    lineRenderer.endColor = chaseHomeColor;
 
                     // Change state
                     batState = BatState.Returning;
@@ -195,46 +207,26 @@ public class BatController : MonoBehaviour
             case BatState.Returning:
 
                 // Travel home
-                ChaseTarget(target);
-
-                // Be aware of targets
-                SearchForPlayer();
-                SearchForLight();
-
-                // If target changed
-                if (target == Target.Player)
-                {
-                    // Red indicator
-                    indicatorRenderer.color = Color.red;
-
-                    // Change state
-                    batState = BatState.AggroPlayer;
-                }
-
-                // If target changed
-                if (target == Target.Light)
-                {
-                    // Red indicator
-                    indicatorRenderer.color = Color.yellow;
-
-                    // Change state
-                    batState = BatState.AggroLight;
-                }
+                ChaseTarget(homePosition);
 
                 // If reached home
-                if (Vector2.Distance(transform.position, homePosition) <= returnRange)
+                if (Vector2.Distance(transform.position, homePosition) <= decelerateDistance)
                 {
-                    // Show ring
-                    // aggroRangeDisplay.enabled = true;
+                    // Snap to position
+                    transform.position = homePosition;
 
                     // Stop moving
                     rigidbody2d.velocity = Vector2.zero;
 
-                    // Enable collision
-                    collider2d.enabled = true;
+                    // Disable collision
+                    collider2d.enabled = false;
 
                     // Change indicator
+                    indicatorRenderer.sprite = eyeSprite;
                     indicatorRenderer.color = Color.clear;
+
+                    // Hide path
+                    lineRenderer.enabled = false;
 
                     // Play animation
                     animationHandler.ChangeAnimation("Asleep");
@@ -267,81 +259,51 @@ public class BatController : MonoBehaviour
         }
     }
 
-    private void SearchForPlayer()
+    private bool PlayerInLineOfSight()
     {
-        // Check if player is close
-        if (Vector3.Distance(transform.position, playerTransform.position) <= aggroRange)
-        {
-            // Get direction
-            var direction = (playerTransform.position - transform.position).normalized;
+        if (IsOffScreen())
+            return false;
 
-            // Now check for line of sight
-            var visionHit = Physics2D.Raycast(transform.position, direction, aggroRange, groundLayer);
-
-            // If NOT obstructed
-            if (!visionHit)
-            {
-                // Set target
-                target = Target.Player;
-            }
-        }
+        return !Physics2D.Linecast(transform.position, playerTransform.position, groundLayer);
     }
 
-    private void SearchForLight()
+    private bool LightInLineOfSight()
     {
-        if (Vector3.Distance(transform.position, lightTransform.position) <= aggroRange)
-        {
-            // Get direction
-            var direction = (lightTransform.position - transform.position).normalized;
+        if (IsOffScreen())
+            return false;
 
-            // Now check for line of sight
-            var visionHit = Physics2D.Raycast(transform.position, direction, aggroRange, groundLayer);
-
-            // If NOT obstructed
-            if (!visionHit)
-            {
-                // Set target
-                target = Target.Light;
-            }
-        }
+        // Now check for line of sight
+        return !Physics2D.Linecast(transform.position, lightTransform.position, groundLayer);
     }
 
-    private void ChaseTarget(Target target)
+    private bool IsOffScreen()
     {
-        // Follow the target
-        // agent.SetDestination(targetTransform.position);
+        // Check if offscreen
+        var view = Camera.main.WorldToViewportPoint(transform.position);
+        return view.x < 0 || view.x > 1 || view.y < 0 || view.y > 1;
+    }
 
-        Vector3 direction;
-        switch (target)
+    private void ChaseTarget(Vector3 target)
+    {
+        // If too close to target
+        if (Vector3.Distance(transform.position, target) <= decelerateDistance)
         {
-            case Target.Player:
-
-                direction = playerTransform.position - transform.position;
-                direction.Normalize();
-
-                // Move in direction of target
-                rigidbody2d.velocity = direction * moveSpeed;
-
-                break;
-            case Target.Light:
-
-                direction = lightTransform.position - transform.position;
-                direction.Normalize();
-
-                // Move in direction of target
-                rigidbody2d.velocity = direction * moveSpeed;
-
-                break;
-            case Target.Home:
-
-                direction = homePosition - transform.position;
-                direction.Normalize();
-
-                // Move in direction of target
-                rigidbody2d.velocity = direction * moveSpeed;
-
-                break;
+            // Decelerate
+            currentVelocity = Vector2.MoveTowards(currentVelocity, Vector2.zero, deceleration * Time.deltaTime);
         }
+        else
+        {
+            // Accelerate
+            Vector3 direction = target - transform.position;
+            direction.Normalize();
+            currentVelocity = Vector2.MoveTowards(currentVelocity, direction * maxSpeed, acceleration * Time.deltaTime);
+        }
+
+        // Update path
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, target);
+
+        rigidbody2d.velocity = currentVelocity;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -349,6 +311,9 @@ public class BatController : MonoBehaviour
         // If the target can be damaged
         if (other.transform.parent.TryGetComponent(out DamageHandler damageHandler))
         {
+            // Play sound
+            AudioManager.instance.PlaySFX("Hurt");
+
             // Damage it
             damageHandler.Kill();
         }
@@ -359,7 +324,7 @@ public class BatController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, aggroRange);
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(homePosition, returnRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, decelerateDistance);
     }
 }

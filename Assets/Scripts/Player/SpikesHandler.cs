@@ -17,8 +17,8 @@ public class SpikesHandler : MonoBehaviour
     {
         if (other.TryGetComponent(out Spikes _))
         {
-            // When you collide with spikes
-            print("Spiked! :" + other.name);
+            // Play sound
+            AudioManager.instance.PlaySFX("Spikes");
 
             // Kill character
             damageHandler.Kill();

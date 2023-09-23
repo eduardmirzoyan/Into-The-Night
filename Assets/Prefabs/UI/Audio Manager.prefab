@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4592543996709590888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4592543996709590894}
+  - component: {fileID: 4592543996709590889}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4592543996709590894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592543996709590888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4592543996709590889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592543996709590888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4ce86d0df417847a6ffd3a0d8eb3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ostSounds:
+  - name: Background 0
+    audioClip: {fileID: 8300000, guid: cffda4fae0d74ab418a2bf3e1313c648, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 1
+    ignorePause: 1
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 8295501276770894636, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Background 1
+    audioClip: {fileID: 8300000, guid: af1990130d65131488a8d6a6adec8ffa, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 1
+    ignorePause: 1
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 8295501276770894636, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  sfxSounds:
+  - name: Run
+    audioClip: {fileID: 8300000, guid: 8a37932c1e9da0343bac203b137d3b4f, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Run
+    audioClip: {fileID: 8300000, guid: 9c6107d8aca524c4aa2fd3f05195eeb1, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Jump
+    audioClip: {fileID: 8300000, guid: f2ebb17822d07134aae483797e95b0e0, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Land
+    audioClip: {fileID: 8300000, guid: 58aab35e86274cd4fab372d4c19e5833, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Hurt
+    audioClip: {fileID: 8300000, guid: 5dba3fdc89a26154bbd98b9f7a10f704, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Hurt
+    audioClip: {fileID: 8300000, guid: 94ab010322cbcd6408f31cb9356a89c1, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Spikes
+    audioClip: {fileID: 8300000, guid: 84e8e0afcc0867b4baa4fb20e15cc6c8, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Lever
+    audioClip: {fileID: 8300000, guid: 7ca90486181f8d74f908df61f4caa25c, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Bat Aggro
+    audioClip: {fileID: 8300000, guid: b99f076ef3294254689d23cfbf4b65a3, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Campfire
+    audioClip: {fileID: 8300000, guid: 4a9e6483cee570e439260792bec56d2e, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Checkpoint Fanfare
+    audioClip: {fileID: 8300000, guid: 21698bd1dc5243b4b9f09e4bb29b690d, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Complete Level
+    audioClip: {fileID: 8300000, guid: 9267184f63b7a4d4189afc42253ee1a2, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Wolf Attack
+    audioClip: {fileID: 8300000, guid: fa0d37c44660e474eaaf32bf5a905104, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Wolf Attack
+    audioClip: {fileID: 8300000, guid: 39a1a80e1eb72ac41a0f6571d444957e, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  fadeTime: 1

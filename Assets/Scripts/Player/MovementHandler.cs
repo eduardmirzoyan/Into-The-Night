@@ -282,7 +282,7 @@ public class MovementHandler : MonoBehaviour
                 isJumping = true;
             }
             // If you are on a wall sliding or wallhaning, then wall jump instead
-            else if (isWallSliding || isWallHanging || WallJumpWithinCoyote())
+            else if (isWallSliding || isWallHanging || (stats.enableWallJumping && WallJumpWithinCoyote()))
             {
                 // Wall jump
                 currentVelocity = Vector2.Scale(stats.wallJumpPower, new Vector2(-onWallThisFrame, 1));

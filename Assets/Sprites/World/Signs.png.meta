@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0632e5f0c4e47834187975e5a674e4f3
+guid: 99ce2477fe7e15645ac4ab770776422f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -130,14 +130,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eacf4bf6054cadf40afa5c766b5df977
-      internalID: 60600352
+      spriteID: c9ff7097bdf32eb40a6dcd975408d759
+      internalID: -728029654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
       name: Signs_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38a0d921a3c3b37438ec500d764d0f33
+      internalID: -780178347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Signs_2
       rect:
         serializedVersion: 2
         x: 0
@@ -151,8 +172,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c773f9edf248e44eb4b1b3091bb521b
-      internalID: 1924258387
+      spriteID: 8ebae32678e1e104e90ce16e15ab58dd
+      internalID: 2126765224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Signs_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae256d4d2d0efc42b2c9d7ae19372f5
+      internalID: 508786395
       vertices: []
       indices: 
       edges: []
@@ -168,8 +210,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Signs_1: 1924258387
-      Signs_0: 60600352
+      Signs_3: 508786395
+      Signs_1: -780178347
+      Signs_0: -728029654
+      Signs_2: 2126765224
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

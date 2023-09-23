@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private List<Sound> sounds;
+    [SerializeField] private List<Sound> ostSounds;
+    [SerializeField] private List<Sound> sfxSounds;
     [SerializeField] private float fadeTime = 1f;
-    private Coroutine coroutine;
 
+    private Coroutine coroutine;
     private string song;
+
     public static AudioManager instance;
     private void Awake()
     {
@@ -21,7 +23,7 @@ public class AudioManager : MonoBehaviour
         instance = this;
 
         // Format sounds
-        foreach (var sound in sounds)
+        foreach (var sound in ostSounds)
         {
             sound.audioSource = gameObject.AddComponent<AudioSource>();
             sound.audioSource.clip = sound.audioClip;
@@ -29,19 +31,24 @@ public class AudioManager : MonoBehaviour
             sound.audioSource.volume = sound.volume;
             sound.audioSource.pitch = sound.pitch;
             sound.audioSource.loop = sound.loop;
-            sound.audioSource.ignoreListenerPause = sound.ignorePause;
+
+            sound.audioSource.outputAudioMixerGroup = sound.audioMixerGroup;
+        }
+
+        foreach (var sound in sfxSounds)
+        {
+            sound.audioSource = gameObject.AddComponent<AudioSource>();
+            sound.audioSource.clip = sound.audioClip;
+
+            sound.audioSource.volume = sound.volume;
+            sound.audioSource.pitch = sound.pitch;
+            sound.audioSource.loop = sound.loop;
 
             sound.audioSource.outputAudioMixerGroup = sound.audioMixerGroup;
         }
 
         // Persist between scenes
         DontDestroyOnLoad(this);
-    }
-
-    private void Start()
-    {
-        // Play background music based on which scene you are in
-        // Play("Background " + TransitionManager.instance.GetSceneIndex());
     }
 
     private IEnumerator FadeInAudio(Sound sound)
@@ -91,65 +98,68 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PlayMusic(string name)
+    public void PlayOST(string name)
     {
-        // Don't replay same song
         if (song == name) return;
 
-        Sound sound = sounds.Find(sound => sound.name == name);
+        Sound sound = ostSounds.Find(sound => sound.name == name);
         if (sound != null)
         {
-            this.song = name;
+            song = name;
+
             if (coroutine != null) StopCoroutine(coroutine);
 
             coroutine = StartCoroutine(FadeInAudio(sound));
         }
-        else { print("Sound with that name not found: " + name); }
+        else print($"Sound with name {name} not found.");
     }
 
-    public void StopMusic(string name)
+    public void StopOST(string name)
     {
-        Sound sound = sounds.Find(sound => sound.name == name);
+        Sound sound = ostSounds.Find(sound => sound.name == name);
         if (sound != null)
         {
-            // Remove song
             song = "";
 
             if (coroutine != null) StopCoroutine(coroutine);
 
             coroutine = StartCoroutine(FadeOutAudio(sound));
         }
-        else { print("Sound with that name not found: " + name); }
+        else print($"Sound with name {name} not found.");
+
     }
 
-    public void Play(string name)
+    public void PlaySFX(string name)
     {
-        // Find sound
-        Sound sound = sounds.Find(sound => sound.name == name);
-
-        // Make sure sound exists
-        if (sound != null)
+        // Get all sounds with name
+        var sounds = sfxSounds.FindAll(sound => sound.name == name);
+        if (sounds.Count > 0)
         {
+            // Randomly choose one
+            var sound = sounds[Random.Range(0, sounds.Count)];
+
             // Set volume
             sound.audioSource.volume = sound.volume;
+            sound.audioSource.loop = sound.loop;
 
             // Play sound
             sound.audioSource.Play();
         }
-        // else { print("Sound with that name not found: " + name); }
+        else print($"Sound with name {name} not found.");
     }
 
-    public void Stop(string name)
+    public void StopSFX(string name)
     {
-        // Find sound
-        Sound sound = sounds.Find(sound => sound.name == name);
-
-        // Make sure sound exists
-        if (sound != null)
+        // Get all sounds with name
+        var sounds = sfxSounds.FindAll(sound => sound.name == name);
+        if (sounds.Count > 0)
         {
-            // Stop sound
+            // Randomly choose one
+            var sound = sounds[Random.Range(0, sounds.Count)];
+
+            // Play sound
             sound.audioSource.Stop();
         }
-        // else { print("Sound with that name not found: " + name); }
+        else print($"Sound with name {name} not found.");
     }
 }
