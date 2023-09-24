@@ -23,6 +23,6 @@ public class LevelSelectUI : MonoBehaviour
     public void SelectLevel(int index)
     {
         // Load scene
-        TransitionManager.instance.LoadSelectedScene(index);
+        GameManager.instance.EnterLevel(index);
     }
 }

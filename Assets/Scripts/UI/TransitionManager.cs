@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TransitionManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Animator animator;
+    [SerializeField] private Canvas canvas;
 
     [Header("Data")]
     [SerializeField] private float transitionTime = 1f;
@@ -24,6 +26,8 @@ public class TransitionManager : MonoBehaviour
         instance = this;
 
         animator = GetComponentInChildren<Animator>();
+        canvas = GetComponentInChildren<Canvas>();
+        canvas.worldCamera = Camera.main;
     }
 
     public int GetSceneIndex()

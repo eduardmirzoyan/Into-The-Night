@@ -65,4 +65,16 @@ public class GameManager : MonoBehaviour
         TransitionManager.instance.LoadSelectedScene(currentLevel);
     }
 
+    public void EnterLevel(int index)
+    {
+        // Reset checkpoint
+        currentCheckpoint = Vector3.back;
+
+        // Set level
+        currentLevel = index;
+
+        // Open scene
+        TransitionManager.instance.LoadSelectedScene(currentLevel);
+    }
+
 }

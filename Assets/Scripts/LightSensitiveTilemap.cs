@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class LightSensitiveTilemap : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float innerRadius = 1f;
     [SerializeField] private float outerRadius = 2f;
+    [SerializeField] private float fadeDuration = 0.5f;
     [SerializeField] private Color outlineColor;
     [SerializeField] private Color photophobicTileColor;
     [SerializeField] private Color photophilicTileColor;
@@ -82,11 +84,6 @@ public class LightSensitiveTilemap : MonoBehaviour
         UpdateLightSensitiveTiles(position);
     }
 
-    private void OnMouseEnter()
-    {
-        print("Enter");
-    }
-
     private void UpdateLightSensitiveTiles(Vector3 lightPosition)
     {
         // Check photophilic tiles
@@ -106,6 +103,7 @@ public class LightSensitiveTilemap : MonoBehaviour
             }
             else
             {
+                // StartCoroutine(FadeOutTile(position, fadeDuration));
                 wallTilemap.SetTile(position, null);
             }
         }
@@ -121,6 +119,7 @@ public class LightSensitiveTilemap : MonoBehaviour
             }
             else
             {
+                // StartCoroutine(FadeOutTile(position, fadeDuration));
                 wallTilemap.SetTile(position, null);
             }
         }
@@ -129,5 +128,37 @@ public class LightSensitiveTilemap : MonoBehaviour
     private bool IsObstructed(Vector3 tileWorldPosition)
     {
         return Vector3.Distance(tileWorldPosition, playerTransform.position) <= 0.5f;
+    }
+
+    private IEnumerator FadeInTile(Vector3Int position, float duration)
+    {
+        Color color = Color.white;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            color.a = Mathf.Lerp(0f, 1f, elapsed / duration);
+            wallTilemap.SetColor(position, color);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator FadeOutTile(Vector3Int position, float duration)
+    {
+        Color color = Color.white;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            color.a = Mathf.Lerp(0f, 1f, elapsed / duration);
+            wallTilemap.SetColor(position, color);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        wallTilemap.SetTile(position, null);
     }
 }

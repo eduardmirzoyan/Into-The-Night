@@ -10,6 +10,8 @@ public class LeverToggleTilemap : MonoBehaviour
     [SerializeField] private Tilemap indicatorTilemap;
     [SerializeField] private Tile enabledTile;
     [SerializeField] private Tile disabledTile;
+    [SerializeField] private PolygonCollider2D boundaryCollider;
+    [SerializeField] private Vector2Int boundaryOffset = Vector2Int.one;
 
     [Header("Outline Data")]
     [SerializeField] private Tilemap outlineTilemap;
@@ -22,7 +24,7 @@ public class LeverToggleTilemap : MonoBehaviour
     private void Awake()
     {
         // Singleton Logic
-        if (LeverToggleTilemap.instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
@@ -30,7 +32,31 @@ public class LeverToggleTilemap : MonoBehaviour
 
         instance = this;
 
+        UpdateBoundary();
+
         FindTiles();
+    }
+
+    private void UpdateBoundary()
+    {
+        // Create a child to hold boundary
+        var boundary = new GameObject("Boundary");
+        boundary.transform.parent = transform;
+        boundaryCollider = boundary.AddComponent<PolygonCollider2D>();
+
+        // Resize collider based on tilemap
+        wallTilemap.CompressBounds();
+        Bounds bounds = wallTilemap.localBounds;
+
+        // Define the points of the collider's new shape based on the Tilemap's bounds.
+        Vector2[] points = new Vector2[4];
+        points[0] = new Vector2(bounds.min.x + boundaryOffset.x, bounds.min.y + boundaryOffset.y);
+        points[1] = new Vector2(bounds.min.x + boundaryOffset.x, bounds.max.y - boundaryOffset.y);
+        points[2] = new Vector2(bounds.max.x - boundaryOffset.x, bounds.max.y - boundaryOffset.y);
+        points[3] = new Vector2(bounds.max.x - boundaryOffset.x, bounds.min.y + boundaryOffset.y);
+
+        // Set the points for the Polygon Collider 2D.
+        boundaryCollider.SetPath(0, points);
     }
 
     private void FindTiles()
@@ -97,5 +123,10 @@ public class LeverToggleTilemap : MonoBehaviour
                 indicatorTilemap.SetTile(position, disabledTile);
             }
         }
+    }
+
+    public Collider2D GetBoundingCollider()
+    {
+        return boundaryCollider;
     }
 }

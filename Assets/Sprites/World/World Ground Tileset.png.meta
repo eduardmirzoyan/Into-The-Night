@@ -577,8 +577,8 @@ TextureImporter:
         y: 144
         width: 42
         height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.22222222}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -598,8 +598,8 @@ TextureImporter:
         y: 144
         width: 25
         height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3125}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -619,8 +619,8 @@ TextureImporter:
         y: 112
         width: 16
         height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -640,8 +640,8 @@ TextureImporter:
         y: 112
         width: 32
         height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.7692308}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -661,8 +661,8 @@ TextureImporter:
         y: 80
         width: 17
         height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5555556}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -682,8 +682,8 @@ TextureImporter:
         y: 80
         width: 35
         height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2857143}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -763,14 +763,14 @@ TextureImporter:
       World Ground Tileset_53: 1004383411
       World Ground Tileset_13: -799935770
       World Ground Tileset_54: -525785206
-      World Ground Tileset_1: 1520618983
       World Ground Tileset_25: 411773963
       World Ground Tileset_40: 1765335056
-      World Ground Tileset_32: -1619459194
       World Ground Tileset_48: 1937734597
+      World Ground Tileset_32: -1619459194
+      World Ground Tileset_1: 1520618983
+      World Ground Tileset_22: 1070788897
       World Ground Tileset_37: -68305950
       World Ground Tileset_38: -4373603
-      World Ground Tileset_22: 1070788897
       World Ground Tileset_59: 1826731932
   spritePackingTag: 
   pSDRemoveMatte: 0
