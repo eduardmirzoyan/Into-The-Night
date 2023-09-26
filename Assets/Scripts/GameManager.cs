@@ -30,9 +30,14 @@ public class GameManager : MonoBehaviour
         currentCheckpoint = checkpoint;
     }
 
-    public Vector3 GetCheckpoint()
+    public Vector3 GetCurrentCheckpoint()
     {
         return currentCheckpoint;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 
     public void LeaveLevel()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Threading;
 
 public class InstructionHandler : MonoBehaviour
 {
@@ -18,8 +17,9 @@ public class InstructionHandler : MonoBehaviour
 
     private Coroutine coroutine;
 
-    private void Start()
+    private void Awake()
     {
+        instructionText = GetComponentInChildren<TextMeshPro>();
         instructionText.text = instructions;
     }
 

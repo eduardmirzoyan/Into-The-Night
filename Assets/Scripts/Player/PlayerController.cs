@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // Get current checkpoint
-        var checkpoint = GameManager.instance.GetCheckpoint();
+        var checkpoint = GameManager.instance.GetCurrentCheckpoint();
 
         // If a checkpoint exists
         if (checkpoint != Vector3.back)

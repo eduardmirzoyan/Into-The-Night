@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,21 +15,36 @@ public class LightSensitiveTilemap : MonoBehaviour
     [SerializeField] private Tile photophilicTile;
 
     [Header("Settings")]
-    [SerializeField] private float innerRadius = 1f;
-    [SerializeField] private float outerRadius = 2f;
+    [SerializeField] private int radius = 2;
     [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float playerCheckRadius = 0.5f;
     [SerializeField] private Color outlineColor;
     [SerializeField] private Color photophobicTileColor;
     [SerializeField] private Color photophilicTileColor;
 
-    private Dictionary<Vector3Int, bool> photophobicTileTable;
-    private Dictionary<Vector3Int, bool> photophilicTileTable;
+    private Dictionary<Vector3Int, TileData> photophobicTileTable;
+    private Dictionary<Vector3Int, TileData> photophilicTileTable;
     private Transform playerTransform;
+
+    private enum TileState { Active, ToInactive, Inactive, ToActive }
+    private class TileData
+    {
+        public Vector3Int position;
+        public TileState tileState;
+        public Coroutine coroutine;
+
+        public TileData(Vector3Int position, TileState tileState)
+        {
+            this.position = position;
+            this.tileState = TileState.Active;
+            coroutine = null;
+        }
+    }
 
     private void Awake()
     {
-        photophobicTileTable = new Dictionary<Vector3Int, bool>();
-        photophilicTileTable = new Dictionary<Vector3Int, bool>();
+        photophobicTileTable = new Dictionary<Vector3Int, TileData>();
+        photophilicTileTable = new Dictionary<Vector3Int, TileData>();
 
         // Fill tables
         foreach (var position in indicatorTilemap.cellBounds.allPositionsWithin)
@@ -38,7 +53,9 @@ public class LightSensitiveTilemap : MonoBehaviour
             if (indicatorTilemap.GetTile(position) == photophobicTile)
             {
                 // Add to table
-                photophobicTileTable[position] = true;
+                var tileData = new TileData(position, TileState.Active);
+                tileData.coroutine = StartCoroutine(FadeInTile(tileData, fadeDuration));
+                photophobicTileTable[position] = tileData;
 
                 // Update color of indicator
                 indicatorTilemap.SetColor(position, photophobicTileColor);
@@ -55,7 +72,7 @@ public class LightSensitiveTilemap : MonoBehaviour
             else if (indicatorTilemap.GetTile(position) == photophilicTile)
             {
                 // Add to table
-                photophilicTileTable[position] = true;
+                photophilicTileTable[position] = new TileData(position, TileState.Inactive);
 
                 // Update color of indicator
                 indicatorTilemap.SetColor(position, photophilicTileColor);
@@ -74,91 +91,224 @@ public class LightSensitiveTilemap : MonoBehaviour
     private void Start()
     {
         // Find player
-        playerTransform = FindObjectOfType<PlayerController>().transform;
+        playerTransform = PlayerController.instance.transform;
     }
 
     private void FixedUpdate()
     {
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         position.z = 0f;
-        UpdateLightSensitiveTiles(position);
+        UpdateTilesInRange(position);
     }
 
-    private void UpdateLightSensitiveTiles(Vector3 lightPosition)
+    private void UpdateTilesInRange(Vector3 lightPosition)
     {
-        // Check photophilic tiles
-        foreach (var position in photophilicTileTable.Keys)
-        {
-            var worldPos = indicatorTilemap.GetCellCenterWorld(position);
-            float distance = Vector3.Distance(lightPosition, worldPos);
-            if (distance <= outerRadius && !IsObstructed(worldPos))
-            {
-                // Set transparancy based on distance
-                distance = Mathf.Clamp(distance, innerRadius, outerRadius);
-                float t = Mathf.InverseLerp(innerRadius, outerRadius, distance);
-                Color color = Color.Lerp(Color.white, Color.clear, t);
-
-                wallTilemap.SetColor(position, color);
-                wallTilemap.SetTile(position, wallTile);
-            }
-            else
-            {
-                // StartCoroutine(FadeOutTile(position, fadeDuration));
-                wallTilemap.SetTile(position, null);
-            }
-        }
-
         // Check photophobic tiles
         foreach (var position in photophobicTileTable.Keys)
         {
+            var tileData = photophobicTileTable[position];
+
+            // If player is far away and not obstructing
             var worldPos = indicatorTilemap.GetCellCenterWorld(position);
-            float distance = Vector3.Distance(lightPosition, worldPos);
-            if (distance > outerRadius && !IsObstructed(worldPos))
+            if (Vector3.Distance(lightPosition, worldPos) > radius && !IsObstructed(worldPos))
             {
-                wallTilemap.SetTile(position, wallTile);
+                switch (tileData.tileState)
+                {
+                    case TileState.Active:
+
+                        // Do nothing, we good
+
+                        break;
+                    case TileState.ToActive:
+
+                        // We still good
+
+                        break;
+                    case TileState.ToInactive:
+
+                        // Stop routine
+                        StopCoroutine(tileData.coroutine);
+
+                        // Start transition to active
+                        tileData.coroutine = StartCoroutine(FadeInTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.Inactive:
+
+                        // Start transition to active
+                        tileData.coroutine = StartCoroutine(FadeInTile(tileData, fadeDuration));
+
+                        break;
+                }
             }
             else
             {
-                // StartCoroutine(FadeOutTile(position, fadeDuration));
-                wallTilemap.SetTile(position, null);
+                switch (tileData.tileState)
+                {
+                    case TileState.Active:
+
+                        // Start transition to inactive
+                        tileData.coroutine = StartCoroutine(FadeOutTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.ToActive:
+
+                        // Stop routine
+                        StopCoroutine(tileData.coroutine);
+
+                        // Start transition to inactive
+                        tileData.coroutine = StartCoroutine(FadeOutTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.ToInactive:
+
+                        // Do nothing, we good
+
+                        break;
+                    case TileState.Inactive:
+
+                        // Do nothing, we good
+
+                        break;
+                }
+            }
+        }
+
+        // Check photophilic tiles
+        foreach (var position in photophilicTileTable.Keys)
+        {
+            var tileData = photophilicTileTable[position];
+
+            // If player is close and not obstructing
+            var worldPos = indicatorTilemap.GetCellCenterWorld(position);
+            if (Vector3.Distance(lightPosition, worldPos) <= radius && !IsObstructed(worldPos))
+            {
+                switch (tileData.tileState)
+                {
+                    case TileState.Active:
+
+                        // Do nothing, we good
+
+                        break;
+                    case TileState.ToActive:
+
+                        // We still good
+
+                        break;
+                    case TileState.ToInactive:
+
+                        // Stop routine
+                        StopCoroutine(tileData.coroutine);
+
+                        // Start transition to active
+                        tileData.coroutine = StartCoroutine(FadeInTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.Inactive:
+
+                        // Start transition to active
+                        tileData.coroutine = StartCoroutine(FadeInTile(tileData, fadeDuration));
+
+                        break;
+                }
+            }
+            else
+            {
+                switch (tileData.tileState)
+                {
+                    case TileState.Active:
+
+                        // Start transition to inactive
+                        tileData.coroutine = StartCoroutine(FadeOutTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.ToActive:
+
+                        // Stop routine
+                        StopCoroutine(tileData.coroutine);
+
+                        // Start transition to inactive
+                        tileData.coroutine = StartCoroutine(FadeOutTile(tileData, fadeDuration));
+
+                        break;
+                    case TileState.ToInactive:
+
+                        // Do nothing, we good
+
+                        break;
+                    case TileState.Inactive:
+
+                        // Do nothing, we good
+
+                        break;
+                }
             }
         }
     }
 
     private bool IsObstructed(Vector3 tileWorldPosition)
     {
-        return Vector3.Distance(tileWorldPosition, playerTransform.position) <= 0.5f;
+        return Vector3.Distance(tileWorldPosition, playerTransform.position) <= playerCheckRadius;
     }
 
-    private IEnumerator FadeInTile(Vector3Int position, float duration)
+    private IEnumerator FadeInTile(TileData tileData, float duration)
     {
-        Color color = Color.white;
+        // Set state
+        tileData.tileState = TileState.ToActive;
 
+        // Set tile to active
+        wallTilemap.SetTile(tileData.position, wallTile);
+
+        // Set end-points
+        float startAlpha = 0f;
+        float endAlpha = 1f;
+        Color color = Color.white;
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            color.a = Mathf.Lerp(0f, 1f, elapsed / duration);
-            wallTilemap.SetColor(position, color);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator FadeOutTile(Vector3Int position, float duration)
-    {
-        Color color = Color.white;
-
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            color.a = Mathf.Lerp(0f, 1f, elapsed / duration);
-            wallTilemap.SetColor(position, color);
+            color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+            wallTilemap.SetColor(tileData.position, color);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        wallTilemap.SetTile(position, null);
+        color.a = endAlpha;
+        wallTilemap.SetColor(tileData.position, color);
+
+        // Update state
+        tileData.tileState = TileState.Active;
+    }
+
+    private IEnumerator FadeOutTile(TileData tileData, float duration)
+    {
+        // Set state
+        tileData.tileState = TileState.ToInactive;
+
+        // Set tile to active
+        wallTilemap.SetTile(tileData.position, wallTile);
+
+        // Set end-points
+        float startAlpha = 1f;
+        float endAlpha = 0f;
+        Color color = Color.white;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+            wallTilemap.SetColor(tileData.position, color);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        color.a = endAlpha;
+        wallTilemap.SetColor(tileData.position, color);
+
+        // Set tile
+        wallTilemap.SetTile(tileData.position, null);
+
+        // Update state
+        tileData.tileState = TileState.Inactive;
     }
 }

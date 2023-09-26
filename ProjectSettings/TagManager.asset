@@ -43,11 +43,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Environment
+  - name: Background
+    uniqueID: 2496714637
+    locked: 0
+  - name: Decoration
+    uniqueID: 2241175269
+    locked: 0
+  - name: World
     uniqueID: 3453488749
     locked: 0
-  - name: Decor
-    uniqueID: 2241175269
+  - name: Interactables
+    uniqueID: 1491464941
     locked: 0
   - name: Enemy
     uniqueID: 606289487

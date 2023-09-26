@@ -5,7 +5,6 @@ using Cinemachine;
 
 public class CameraHandler : MonoBehaviour
 {
-    [SerializeField] private Camera cam;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private CinemachineConfiner2D confiner;
 
@@ -20,7 +19,6 @@ public class CameraHandler : MonoBehaviour
         }
         instance = this;
 
-        cam = GetComponent<Camera>();
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         confiner = GetComponent<CinemachineConfiner2D>();
     }

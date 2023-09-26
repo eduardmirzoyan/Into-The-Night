@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 606289487
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 458530451, guid: 8854406a51130cd4299cba1465074a22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -189,7 +189,7 @@ MonoBehaviour:
   chasePlayerColor: {r: 1, g: 0, b: 0, a: 0.09803922}
   chaseLightColor: {r: 1, g: 0.8816934, b: 0, a: 0.09803922}
   chaseHomeColor: {r: 1, g: 1, b: 1, a: 0.09803922}
-  aggroRange: 5
+  aggroRange: 5.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -335,7 +335,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1403262017
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 74536615, guid: 2d30047d1c4be564ab0e086613214ae5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -419,7 +419,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 606289487
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
