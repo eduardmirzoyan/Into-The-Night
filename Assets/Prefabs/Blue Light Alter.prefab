@@ -69,8 +69,8 @@ GameObject:
   - component: {fileID: 7850474266907841492}
   - component: {fileID: 7850474266907841493}
   - component: {fileID: 7850474266907841494}
-  m_Layer: 10
-  m_Name: Light Alter
+  m_Layer: 0
+  m_Name: Blue Light Alter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 7850474267326656699}
   - component: {fileID: 7850474267326656677}
   - component: {fileID: 7850474267326656676}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7850474267932243270}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7850474268565713405}
   - component: {fileID: 7850474268565713406}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Alter Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

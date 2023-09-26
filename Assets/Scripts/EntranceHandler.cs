@@ -27,9 +27,6 @@ public class EntranceHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Player")
-            return;
-
         if (coroutine != null)
             StopCoroutine(coroutine);
 
@@ -38,9 +35,6 @@ public class EntranceHandler : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag != "Player")
-            return;
-
         if (coroutine != null)
             StopCoroutine(coroutine);
 

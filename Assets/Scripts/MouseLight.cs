@@ -8,6 +8,7 @@ public class MouseLight : MonoBehaviour
     [Header("Static Data")]
     [SerializeField] private Light2D light2D;
     [SerializeField] private CircleCollider2D circleCollider;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("Settings")]
     [SerializeField] private float radius = 3f;
@@ -24,12 +25,16 @@ public class MouseLight : MonoBehaviour
         }
         instance = this;
 
-        // Get hitbox
-        circleCollider = GetComponent<CircleCollider2D>();
-        circleCollider.radius = radius / 2;
+        // Setup renderer
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.transform.localScale = Vector3.one * radius;
 
-        // Set up light
-        light2D = GetComponent<Light2D>();
+        // Setup hitbox
+        circleCollider = GetComponentInChildren<CircleCollider2D>();
+        circleCollider.radius = radius;
+
+        // Setup light
+        light2D = GetComponentInChildren<Light2D>();
         light2D.pointLightOuterRadius = radius;
     }
 

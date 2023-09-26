@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8228178402308066254}
   - component: {fileID: 8228178402308066255}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 8228178403510215008}
   - component: {fileID: 8228178403510215010}
   - component: {fileID: 8228178403510215009}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Instruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 15, y: 1}
+  m_SizeDelta: {x: 20, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8228178403510215010
 MeshRenderer:
@@ -324,8 +324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8228178403633297605}
   - component: {fileID: 8228178403633297606}
-  m_Layer: 10
-  m_Name: Trigger Hitbox
+  m_Layer: 11
+  m_Name: Interact Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 8228178404328517761}
   - component: {fileID: 8228178404328517762}
   - component: {fileID: 8228178404328517763}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Instruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4471755943402061507}
   - component: {fileID: 4471755943402061516}
-  m_Layer: 10
-  m_Name: Trigger
+  m_Layer: 11
+  m_Name: Interact Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

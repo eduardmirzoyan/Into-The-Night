@@ -6,8 +6,6 @@ public class ExitHandler : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Player") return;
-
         // Play sound
         AudioManager.instance.PlaySFX("Complete Level");
 

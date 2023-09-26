@@ -240,8 +240,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8927901837836878325}
   - component: {fileID: 8927901837836878282}
-  m_Layer: 10
-  m_Name: Trigger Hitbox
+  m_Layer: 11
+  m_Name: Interact Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

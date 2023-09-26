@@ -26,12 +26,12 @@ public class WispController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.IsTouchingLayers(lightLayer))
+        if (other.IsTouchingLayers(lightLayer) && !other.transform.parent.TryGetComponent(out WispController _))
         {
             // When light enters, start following
-            print($"Started following: {other.name}");
+            // print($"Started following: {other.name}");
 
-            target = other.transform;
+            target = other.transform.parent;
 
             // Play sound
             AudioManager.instance.PlaySFX("Wisp Aggro");
@@ -67,10 +67,10 @@ public class WispController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.transform == target)
+        if (other.transform.parent == target)
         {
             // When light exits, stop following
-            print($"Stopped following: {other.name}");
+            // print($"Stopped following: {other.name}");
 
             target = null;
         }

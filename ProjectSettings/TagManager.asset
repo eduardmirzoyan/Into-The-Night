@@ -14,18 +14,18 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Player
-  - Platform
-  - InteractPlatform
-  - Interactable
-  - Decor
   - 
+  - Platform
+  - Platform Collide
+  - Interact
+  - Interact Trigger
+  - Spikes Trigger
   - Light
   - Spikes
   - Enemy
-  - InteractGround
-  - LightTrigger
-  - PhysicalTrigger
+  - Ground Collide
+  - Light Trigger
+  - Physical Trigger
   - Physical
   - 
   - 

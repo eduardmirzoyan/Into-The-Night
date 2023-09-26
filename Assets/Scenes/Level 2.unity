@@ -162,6 +162,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2015826650604149074, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2015826651122081618, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -191,6 +195,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2015826651329152129, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826651350258308, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826651350258308, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826651350258308, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826651350258308, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -257,6 +277,26 @@ PrefabInstance:
     - target: {fileID: 2015826652076717501, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
       propertyPath: m_Name
       value: Pause Mananger
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826652196595829, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826652196595829, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826652196595829, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826652196595829, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015826652196595829, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4fd340ba27613f45a5fef3540e31bf0, type: 3}
@@ -36343,7 +36383,7 @@ GameObject:
   - component: {fileID: 1839013861}
   - component: {fileID: 1839013860}
   - component: {fileID: 1839013859}
-  m_Layer: 14
+  m_Layer: 12
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36388,7 +36428,7 @@ CompositeCollider2D:
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 13388ee8976c9c84a8aa23b9558759b6, type: 2}
   m_IsTrigger: 1
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 0

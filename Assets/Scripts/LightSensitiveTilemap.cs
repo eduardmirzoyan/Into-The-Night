@@ -98,10 +98,10 @@ public class LightSensitiveTilemap : MonoBehaviour
     {
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         position.z = 0f;
-        UpdateTilesInRange(position);
+        UpdateTiles(position);
     }
 
-    private void UpdateTilesInRange(Vector3 lightPosition)
+    private void UpdateTiles(Vector3 lightPosition)
     {
         // Check photophobic tiles
         foreach (var position in photophobicTileTable.Keys)
@@ -310,5 +310,28 @@ public class LightSensitiveTilemap : MonoBehaviour
 
         // Update state
         tileData.tileState = TileState.Inactive;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f;
+
+        Gizmos.color = Color.red;
+        for (float i = -radius; i <= radius; i++)
+        {
+            for (float j = -radius; j <= radius; j++)
+            {
+                var position = mousePosition + new Vector3(i, j, 0);
+                var tilePosition = wallTilemap.WorldToCell(position);
+                var tilePositionWorld = wallTilemap.GetCellCenterWorld(tilePosition);
+
+                // Check if cell center and mouse are within radius
+                if (Vector3.Distance(mousePosition, tilePositionWorld) <= radius)
+                {
+                    Gizmos.DrawWireCube(tilePositionWorld, Vector3.one);
+                }
+            }
+        }
     }
 }

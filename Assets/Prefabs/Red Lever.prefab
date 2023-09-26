@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3878786825661164910}
   - component: {fileID: 3878786825661164909}
   - component: {fileID: 3878786825661164908}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3878786826475147463}
   - component: {fileID: 3878786826475147462}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 3878786826710742878}
   - component: {fileID: 3878786826710742877}
   - component: {fileID: 3878786826710742876}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Red Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
