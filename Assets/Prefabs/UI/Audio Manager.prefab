@@ -182,4 +182,28 @@ MonoBehaviour:
     ignorePause: 1
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Alter On
+    audioClip: {fileID: 8300000, guid: 4209349adc6b36c4585cc2c74d3c0235, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Alter Off
+    audioClip: {fileID: 8300000, guid: 8938ff3adeca2de41846bd36cdc6238d, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
+  - name: Wisp Aggro
+    audioClip: {fileID: 8300000, guid: dbc24b3dd907b4e4abe4cf3abbdd8cf4, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 1262659010287944645, guid: 86c3ef467b997aa419fd5514a2289f0f, type: 2}
   fadeTime: 1

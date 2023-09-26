@@ -8,6 +8,7 @@ public class Lever : MonoBehaviour
     [SerializeField] private Collider2D collider2d;
     [SerializeField] private SpriteRenderer leverRenderer;
     [SerializeField] private SpriteRenderer indicatorRenderer;
+    [SerializeField] private Animator indicatorAnimator;
 
     [Header("On State")]
     [SerializeField] private Sprite onLeverSprite;
@@ -29,23 +30,21 @@ public class Lever : MonoBehaviour
         leverRenderer.sprite = onLeverSprite;
         indicatorRenderer.sprite = onIndicatorSprite;
         collider2d.transform.localPosition = onColliderPosition;
+        indicatorAnimator.Play("Active");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" || other.tag == "Bat")
+        // Check direction
+        var direction = collider2d.bounds.center - other.transform.position;
+        direction.Normalize();
+        if (onState && direction.x > 0f)
         {
-            // Check direction
-            var direction = collider2d.bounds.center - other.transform.position;
-            direction.Normalize();
-            if (onState && direction.x > 0f)
-            {
-                ToggleState();
-            }
-            else if (!onState && direction.x < 0f)
-            {
-                ToggleState();
-            }
+            ToggleState();
+        }
+        else if (!onState && direction.x < 0f)
+        {
+            ToggleState();
         }
     }
 
@@ -55,6 +54,7 @@ public class Lever : MonoBehaviour
         {
             leverRenderer.sprite = offLeverSprite;
             indicatorRenderer.sprite = offIndicatorSprite;
+            indicatorAnimator.Play("Inactive");
             collider2d.transform.localPosition = offColliderPosition;
 
             LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
@@ -65,7 +65,9 @@ public class Lever : MonoBehaviour
         {
             leverRenderer.sprite = onLeverSprite;
             indicatorRenderer.sprite = onIndicatorSprite;
+            indicatorAnimator.Play("Active");
             collider2d.transform.localPosition = onColliderPosition;
+
 
             LeverToggleTilemap.instance.EnableTiles(indicatorRenderer.color);
 

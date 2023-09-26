@@ -7,6 +7,7 @@ public class MouseLight : MonoBehaviour
 {
     [Header("Static Data")]
     [SerializeField] private Light2D light2D;
+    [SerializeField] private CircleCollider2D circleCollider;
 
     [Header("Settings")]
     [SerializeField] private float radius = 3f;
@@ -22,6 +23,10 @@ public class MouseLight : MonoBehaviour
             return;
         }
         instance = this;
+
+        // Get hitbox
+        circleCollider = GetComponent<CircleCollider2D>();
+        circleCollider.radius = radius / 2;
 
         // Set up light
         light2D = GetComponent<Light2D>();

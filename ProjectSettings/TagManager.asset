@@ -19,14 +19,14 @@ TagManager:
   - InteractPlatform
   - Interactable
   - Decor
-  - Trigger
+  - 
   - Light
   - Spikes
   - Enemy
   - InteractGround
-  - 
-  - 
-  - 
+  - LightTrigger
+  - PhysicalTrigger
+  - Physical
   - 
   - 
   - 

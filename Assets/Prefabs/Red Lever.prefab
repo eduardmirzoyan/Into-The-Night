@@ -219,7 +219,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3878786826710742878}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3878786826571983863
 BoxCollider2D:
@@ -230,7 +230,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3878786826571983865}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 13388ee8976c9c84a8aa23b9558759b6, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -257,8 +257,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3878786826598423642}
   - component: {fileID: 3878786826598423641}
-  m_Layer: 10
-  m_Name: Trigger Collider
+  m_Layer: 18
+  m_Name: Physical Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,7 +277,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3878786826710742878}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &3878786826598423641
 CircleCollider2D:
@@ -326,8 +326,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3878786826475147463}
-  - {fileID: 3878786826571983864}
   - {fileID: 3878786826598423642}
+  - {fileID: 3878786826571983864}
   - {fileID: 3878786825661164910}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -368,6 +368,7 @@ MonoBehaviour:
   collider2d: {fileID: 3878786826598423641}
   leverRenderer: {fileID: 3878786826475147462}
   indicatorRenderer: {fileID: 3878786825661164909}
+  indicatorAnimator: {fileID: 3878786825661164908}
   onLeverSprite: {fileID: -1392154305, guid: b232ad7e9afd8d1439e79001fa80dae6, type: 3}
   onIndicatorSprite: {fileID: 324687325, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
   onColliderPosition: {x: -0.7, y: -0.35, z: 0}
