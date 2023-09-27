@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 324687325, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
-  m_Color: {r: 0.8745098, g: 0.24313726, b: 0.13725491, a: 0.5882353}
+  m_Color: {r: 0.6627451, g: 0.3137255, b: 0.7411765, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 3878786826710742877}
   - component: {fileID: 3878786826710742876}
   m_Layer: 0
-  m_Name: Red Lever
+  m_Name: Lever (Purple)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,4 +375,5 @@ MonoBehaviour:
   offLeverSprite: {fileID: 381489780, guid: b232ad7e9afd8d1439e79001fa80dae6, type: 3}
   offIndicatorSprite: {fileID: -1117208781, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
   offColliderPosition: {x: 0.7, y: -0.1, z: 0}
+  startOn: 1
   onState: 1

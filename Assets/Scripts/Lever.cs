@@ -20,17 +20,35 @@ public class Lever : MonoBehaviour
     [SerializeField] private Sprite offIndicatorSprite;
     [SerializeField] private Vector3 offColliderPosition = new Vector3(0.7f, -0.1f, 0f);
 
+    [Header("Settings")]
+    [SerializeField] private bool startOn;
+
     [Header("Data")]
-    [SerializeField, ReadOnly] private bool onState = true;
+    [SerializeField, ReadOnly] private bool onState;
 
     private void Start()
     {
-        // Always start on
-        onState = true;
-        leverRenderer.sprite = onLeverSprite;
-        indicatorRenderer.sprite = onIndicatorSprite;
-        collider2d.transform.localPosition = onColliderPosition;
-        indicatorAnimator.Play("Active");
+        if (!startOn)
+        {
+            // Disable
+            onState = false;
+            leverRenderer.sprite = offLeverSprite;
+            indicatorRenderer.sprite = offIndicatorSprite;
+            indicatorAnimator.Play("Inactive");
+            collider2d.transform.localPosition = offColliderPosition;
+
+            // Turn off tiles
+            LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
+        }
+        else
+        {
+            // Always start on
+            onState = true;
+            leverRenderer.sprite = onLeverSprite;
+            indicatorRenderer.sprite = onIndicatorSprite;
+            collider2d.transform.localPosition = onColliderPosition;
+            indicatorAnimator.Play("Active");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

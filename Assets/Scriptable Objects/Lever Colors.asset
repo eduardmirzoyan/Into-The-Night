@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6bf45ba6a254194e94b68d36df41f18, type: 3}
   m_Name: Lever Colors
   m_EditorClassIdentifier: 
-  blueColor: {r: 0.09411766, g: 0.5176471, b: 0.8588236, a: 1}
-  redColor: {r: 0.8745099, g: 0.24313727, b: 0.13725491, a: 1}
-  yellowColor: {r: 0.97647065, g: 0.6392157, b: 0.10588236, a: 1}
-  greenColor: {r: 0.36862746, g: 0.7960785, b: 0.21960786, a: 1}
-  purpleColor: {r: 0.6627451, g: 0.3137255, b: 0.7411765, a: 1}
+  blueColor: {r: 0.09411766, g: 0.5176471, b: 0.8588236, a: 0.5882353}
+  redColor: {r: 0.8745099, g: 0.24313727, b: 0.13725491, a: 0.5882353}
+  yellowColor: {r: 0.97647065, g: 0.6392157, b: 0.10588236, a: 0.5882353}
+  greenColor: {r: 0.36862746, g: 0.7960785, b: 0.21960786, a: 0.5882353}
+  purpleColor: {r: 0.6627451, g: 0.3137255, b: 0.7411765, a: 0.5882353}
