@@ -553,12 +553,10 @@ MonoBehaviour:
   outlineTilemap: {fileID: 1907298226}
   photophobicTile: {fileID: 11400000, guid: f2a09395cb98941478a1ced03d597dd8, type: 2}
   photophilicTile: {fileID: 11400000, guid: 39cdd3f77571df84782eed1d9292b2d0, type: 2}
+  photophobicPrefab: {fileID: 1686943553016845766, guid: 820e176d89db2a4438135c7cae8bd278, type: 3}
+  photophilicPrefab: {fileID: 4492465940217653905, guid: 23b062413aa0d3042b20c0ff26f9a0eb, type: 3}
   radius: 2
-  fadeDuration: 0.1
-  playerCheckRadius: 0.7
   outlineColor: {r: 0, g: 0, b: 0, a: 0.19607843}
-  photophobicTileColor: {r: 1, g: 1, b: 1, a: 0.39215687}
-  photophilicTileColor: {r: 1, g: 1, b: 1, a: 0.39215687}
 --- !u!156049354 &186085536
 Grid:
   m_ObjectHideFlags: 0

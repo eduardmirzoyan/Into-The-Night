@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Photophilic Tile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -1303591, guid: 586c2894e9d7be74dae01457387df1a5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2509804}
   m_Transform:
     e00: 1
     e01: 0
@@ -32,5 +32,5 @@ MonoBehaviour:
     e32: 0
     e33: 1
   m_InstancedGameObject: {fileID: 0}
-  m_Flags: 0
+  m_Flags: 1
   m_ColliderType: 1
