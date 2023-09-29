@@ -35,6 +35,9 @@ public class PhotophobicTile : MonoBehaviour
         // Start active
         tileState = TileState.Active;
         wallTilemap.SetTile(position, wallTile);
+
+        // Update name
+        gameObject.name = $"Photophobic Tile [{position}]";
     }
 
     private void OnTriggerEnter2D(Collider2D other)

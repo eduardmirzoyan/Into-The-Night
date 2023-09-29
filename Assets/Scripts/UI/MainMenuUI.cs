@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
@@ -14,15 +19,11 @@ public class MainMenuUI : MonoBehaviour
 
     public void Show()
     {
-        canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        animator.Play("Fade In");
     }
 
     public void Hide()
     {
-        canvasGroup.alpha = 0f;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        animator.Play("Fade Out");
     }
 }

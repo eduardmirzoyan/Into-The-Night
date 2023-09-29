@@ -16,7 +16,7 @@ MonoBehaviour:
   acceleration: 60
   groundDeceleration: 60
   airDeceleration: 30
-  jumpPower: 12
+  jumpPower: 12.5
   earlyCancelFactor: 2
   coyoteTime: 0.1
   jumpBuffer: 0.2

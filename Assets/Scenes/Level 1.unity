@@ -526,15 +526,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259474dbb72e38a44b98d3ef9d0a28a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallTilemap: {fileID: 775134629}
   indicatorTilemap: {fileID: 1303225140}
-  enabledTile: {fileID: 11400000, guid: 5e77f0c72806c934db5e77abcdda3b90, type: 2}
-  disabledTile: {fileID: 11400000, guid: 36af8850ed42350489d44874f841c52a, type: 2}
-  boundaryCollider: {fileID: 0}
-  boundaryOffset: {x: 1, y: 1}
+  wallTilemap: {fileID: 775134629}
   outlineTilemap: {fileID: 1907298226}
+  toggleableTilePrefab: {fileID: 4492465940217653905, guid: 41c4eb2c7b824494f8d4a476ae75a7aa, type: 3}
+  toggleSprite: {fileID: 324687325, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
   outlineTile: {fileID: 11400000, guid: 1dc21ff7e5444474985150f34e206433, type: 2}
   outlineColor: {r: 0, g: 0, b: 0, a: 0.19607843}
+  boundaryOffset: {x: 1, y: 1}
+  boundaryCollider: {fileID: 0}
 --- !u!114 &186085535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15141,7 +15141,7 @@ GameObject:
   - component: {fileID: 1303225142}
   - component: {fileID: 1303225140}
   - component: {fileID: 1303225141}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,6 @@ public class MouseLight : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float radius = 3f;
-    [SerializeField] private Vector2 pulseRange;
 
     public static MouseLight instance;
     private void Awake()
@@ -49,7 +48,7 @@ public class MouseLight : MonoBehaviour
             return;
 
         FollowMouse();
-        Pulsate();
+        // Pulsate();
     }
 
     private void FollowMouse()

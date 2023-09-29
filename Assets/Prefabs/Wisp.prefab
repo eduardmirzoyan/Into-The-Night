@@ -268,8 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 0}
-  maxSpeed: 4
-  acceleration: 10
+  maxSpeed: 5
+  acceleration: 15
   deceleration: 10
   decelerateDistance: 0.25
   lightLayer:
@@ -392,8 +392,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5748663508396698279}
   - component: {fileID: 5748663508396698276}
+  - component: {fileID: 4315434003502170574}
   m_Layer: 0
-  m_Name: Light
+  m_Name: Light Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -492,6 +493,26 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!95 &4315434003502170574
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748663508396698278}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42cb9eed69241774380f9cf015c52f8c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5748663508849261059
 GameObject:
   m_ObjectHideFlags: 0

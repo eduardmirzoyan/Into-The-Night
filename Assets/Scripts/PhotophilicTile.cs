@@ -33,6 +33,9 @@ public class PhotophilicTile : MonoBehaviour
 
         // Start inactive
         tileState = TileState.Inactive;
+
+        // Update name
+        gameObject.name = $"Photophilic Tile [{position}]";
     }
 
     private void OnTriggerEnter2D(Collider2D other)

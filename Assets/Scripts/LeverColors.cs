@@ -10,4 +10,7 @@ public class LeverColors : ScriptableObject
     public Color yellowColor;
     public Color greenColor;
     public Color purpleColor;
+    public Color pinkColor;
+    public Color whiteColor;
+    public Color blackColor;
 }
