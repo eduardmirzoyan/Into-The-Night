@@ -38,7 +38,7 @@ public class Lever : MonoBehaviour
             collider2d.transform.localPosition = offColliderPosition;
 
             // Turn off tiles
-            LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
+            ConditionalTilesManager.instance.DisableTiles(indicatorRenderer.color);
         }
         else
         {
@@ -75,7 +75,7 @@ public class Lever : MonoBehaviour
             indicatorAnimator.Play("Inactive");
             collider2d.transform.localPosition = offColliderPosition;
 
-            LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
+            ConditionalTilesManager.instance.DisableTiles(indicatorRenderer.color);
 
             onState = false;
         }
@@ -87,7 +87,7 @@ public class Lever : MonoBehaviour
             collider2d.transform.localPosition = onColliderPosition;
 
 
-            LeverToggleTilemap.instance.EnableTiles(indicatorRenderer.color);
+            ConditionalTilesManager.instance.EnableTiles(indicatorRenderer.color);
 
             onState = true;
         }

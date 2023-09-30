@@ -45,7 +45,7 @@ public class Parallax : MonoBehaviour
     private void Start()
     {
         // Start position of background should be in bottom center of map
-        var bounds = LeverToggleTilemap.instance.GetBoundingCollider().bounds;
+        var bounds = MapBoundaryManager.instance.GetBoundingCollider().bounds;
         var bottomCenter = new Vector3(bounds.center.x, bounds.min.y, 0);
         startPosition = bottomCenter;
     }

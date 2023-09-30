@@ -262,9 +262,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorRenderer: {fileID: 7850474267326656677}
   indicatorAnimator: {fileID: 7850474267326656676}
+  light2d: {fileID: 0}
   onIndicatorSprite: {fileID: 324687325, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
   offIndicatorSprite: {fileID: -1117208781, guid: 4a213db716fe8c44fb2b2b230f8ed5e1, type: 3}
-  onState: 0
   triggerCount: 0
 --- !u!1 &7850474267264222966
 GameObject:
@@ -313,7 +313,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.5}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
 --- !u!1 &7850474267326656698
 GameObject:
   m_ObjectHideFlags: 0

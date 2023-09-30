@@ -28,7 +28,7 @@ public class LightAlter : MonoBehaviour
     private void Start()
     {
         // Start disabled
-        LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
+        ConditionalTilesManager.instance.DisableTiles(indicatorRenderer.color);
 
         indicatorRenderer.sprite = offIndicatorSprite;
         indicatorAnimator.Play("Inactive");
@@ -43,7 +43,7 @@ public class LightAlter : MonoBehaviour
         triggerCount++;
         if (triggerCount == 1)
         {
-            LeverToggleTilemap.instance.EnableTiles(indicatorRenderer.color);
+            ConditionalTilesManager.instance.EnableTiles(indicatorRenderer.color);
 
             // Play sound
             AudioManager.instance.PlaySFX("Alter On");
@@ -61,7 +61,7 @@ public class LightAlter : MonoBehaviour
         triggerCount--;
         if (triggerCount == 0)
         {
-            LeverToggleTilemap.instance.DisableTiles(indicatorRenderer.color);
+            ConditionalTilesManager.instance.DisableTiles(indicatorRenderer.color);
 
             // Play sound
             AudioManager.instance.PlaySFX("Alter Off");

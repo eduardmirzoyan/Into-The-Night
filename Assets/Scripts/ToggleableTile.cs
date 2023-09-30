@@ -37,15 +37,15 @@ public class ToggleableTile : MonoBehaviour
         gameObject.name = $"Toggleable Tile [{position}]";
 
         // Sub to events
-        LeverToggleTilemap.instance.onTileEnable += ActivateOnEnable;
-        LeverToggleTilemap.instance.onTileDisable += DeactivateOnDisable;
+        ConditionalTilesManager.instance.onTileEnable += ActivateOnEnable;
+        ConditionalTilesManager.instance.onTileDisable += DeactivateOnDisable;
     }
 
     private void OnDestroy()
     {
         // Unsub to events
-        LeverToggleTilemap.instance.onTileEnable -= ActivateOnEnable;
-        LeverToggleTilemap.instance.onTileDisable -= DeactivateOnDisable;
+        ConditionalTilesManager.instance.onTileEnable -= ActivateOnEnable;
+        ConditionalTilesManager.instance.onTileDisable -= DeactivateOnDisable;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -82,8 +82,8 @@ public class ToggleableTile : MonoBehaviour
                     wallTilemap.SetTile(position, wallTile);
 
                     // Update indicator
-                    indicatorTilemap.SetColor(position, color);
-                    indicatorTilemap.SetTile(position, enabledTile);
+                    //indicatorTilemap.SetColor(position, color);
+                    //indicatorTilemap.SetTile(position, enabledTile);
                 }
 
                 isActive = true;
@@ -101,8 +101,8 @@ public class ToggleableTile : MonoBehaviour
                 wallTilemap.SetTile(position, null);
 
                 // Update indicator
-                indicatorTilemap.SetColor(position, color);
-                indicatorTilemap.SetTile(position, disabledTile);
+                //indicatorTilemap.SetColor(position, color);
+                //indicatorTilemap.SetTile(position, disabledTile);
 
                 isActive = false;
             }

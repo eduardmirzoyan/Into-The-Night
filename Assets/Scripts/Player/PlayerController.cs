@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum PlayerState { Idle, Run, Rise, Fall, Crouch, Crouchwalk, Wallslide, Wallhang, Mantle, Exit, Enter, Dead };
+    private enum PlayerState { Idle, Run, Rise, Fall, Crouch, Crouchwalk, Exit, Enter, Dead };
 
     [Header("Components")]
     [SerializeField] private InputHandler inputHandler;
@@ -116,19 +116,23 @@ public class PlayerController : MonoBehaviour
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 // Check for crouching
                 if (movementHandler.IsCrouching())
                 {
                     // Enable crouch
-                    movementHandler.StartCrouch(); ;
+                    movementHandler.StartCrouch();
 
                     // Change states
                     playerState = PlayerState.Crouch;
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 // Check for jumping
@@ -145,6 +149,8 @@ public class PlayerController : MonoBehaviour
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 // Check for falling
@@ -155,6 +161,8 @@ public class PlayerController : MonoBehaviour
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 break;
@@ -193,6 +201,9 @@ public class PlayerController : MonoBehaviour
 
                     // Stop sound
                     CancelInvoke("FootstepsSFX");
+
+                    // Play sound
+                    InvokeRepeating("FootstepsSFX", 0f, 0.66f);
 
                     // Change states
                     playerState = PlayerState.Crouchwalk;
@@ -312,29 +323,6 @@ public class PlayerController : MonoBehaviour
                     animationHandler.ChangeAnimation(playerState.ToString());
                 }
 
-                // Check for ledge
-                if (movementHandler.IsTouchingLedge())
-                {
-                    // Play sound
-                    AudioManager.instance.PlaySFX("Grab Ledge");
-
-                    // Change states
-                    playerState = PlayerState.Wallhang;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                // Handle wall sliding
-                if (movementHandler.IsWallSliding())
-                {
-                    // Change states
-                    playerState = PlayerState.Wallslide;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
                 break;
             case PlayerState.Crouch:
 
@@ -363,6 +351,9 @@ public class PlayerController : MonoBehaviour
                 // Check for crouch walk
                 if (movementHandler.IsRunning())
                 {
+                    // Play sound
+                    InvokeRepeating("FootstepsSFX", 0f, 0.66f);
+
                     // Change states
                     playerState = PlayerState.Crouchwalk;
 
@@ -398,11 +389,16 @@ public class PlayerController : MonoBehaviour
                 // Check for crouch
                 if (!movementHandler.IsRunning())
                 {
+                    // Stop sound
+                    CancelInvoke("FootstepsSFX");
+
                     // Change states
                     playerState = PlayerState.Crouch;
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 // Check for running
@@ -414,6 +410,9 @@ public class PlayerController : MonoBehaviour
                     // Play particles
                     juiceHandler.StartRun();
 
+                    // Stop sound
+                    CancelInvoke("FootstepsSFX");
+
                     // Play sound
                     InvokeRepeating("FootstepsSFX", 0f, 0.33f);
 
@@ -422,6 +421,8 @@ public class PlayerController : MonoBehaviour
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
+
+                    return;
                 }
 
                 // Check for falling
@@ -435,105 +436,8 @@ public class PlayerController : MonoBehaviour
 
                     // Change animation
                     animationHandler.ChangeAnimation(playerState.ToString());
-                }
 
-                break;
-            case PlayerState.Wallslide:
-
-                // Handle running
-                HandleRunning();
-
-                // Handle jumping
-                HandleJumping();
-
-                // Check for jump
-                if (movementHandler.IsRising())
-                {
-                    // Play effect
-                    juiceHandler.PlayJump();
-
-                    // Play sound
-                    AudioManager.instance.PlaySFX("Jump");
-
-                    // Change states
-                    playerState = PlayerState.Rise;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                // Check for fall
-                if (!movementHandler.IsWallSliding())
-                {
-                    // Change states
-                    playerState = PlayerState.Fall;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                // Check for idle
-                if (movementHandler.IsGrounded())
-                {
-                    // Change states
-                    playerState = PlayerState.Idle;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                break;
-            case PlayerState.Wallhang:
-
-                // Handle running
-                HandleRunning();
-
-                // Handle jumping
-                HandleJumping();
-
-                // Check for jump
-                if (movementHandler.IsRising())
-                {
-                    // Play effect
-                    juiceHandler.PlayJump();
-
-                    // Play sound
-                    AudioManager.instance.PlaySFX("Jump");
-
-                    // Change states
-                    playerState = PlayerState.Rise;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                // Check for mantle
-                if (movementHandler.IsMantling())
-                {
-                    // Change states
-                    playerState = PlayerState.Mantle;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
-                }
-
-                break;
-            case PlayerState.Mantle:
-
-                // Handle running
-                HandleRunning();
-
-                // Wait til animation is over
-                if (animationHandler.IsFinished())
-                {
-                    // Move model
-                    movementHandler.PerformMantle();
-
-                    // Change states
-                    playerState = PlayerState.Idle;
-
-                    // Change animation
-                    animationHandler.ChangeAnimation(playerState.ToString());
+                    return;
                 }
 
                 break;

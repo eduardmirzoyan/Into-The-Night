@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int currentLevel;
-    [SerializeField] private Vector3 currentCheckpoint;
+    [Header("Settings Data")]
+    [SerializeField,] private bool enableSpeedrunTimer;
+    [SerializeField,] private bool enableDeathCounter;
+    [SerializeField,] private string playerName;
+
+    [Header("Level Data")]
+    [SerializeField, ReadOnly] private int restartCount;
+    [SerializeField, ReadOnly] private int currentLevel;
+    [SerializeField, ReadOnly] private Vector3 currentCheckpoint;
 
     public static GameManager instance;
     private void Awake()
@@ -21,13 +28,45 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         // Set to default values
+        restartCount = 0;
         currentLevel = 0;
         currentCheckpoint = Vector3.back;
+        playerName = "";
+    }
+
+    public void EnableSpeedrunTimer(bool state)
+    {
+        enableSpeedrunTimer = state;
+    }
+
+    public bool SpeedrunEnabled()
+    {
+        return enableSpeedrunTimer;
+    }
+
+    public void EnableDeathCounter(bool state)
+    {
+        enableDeathCounter = state;
+    }
+
+    public bool DeathCounterEnabled()
+    {
+        return enableDeathCounter;
     }
 
     public void SetCheckpoint(Vector3 checkpoint)
     {
         currentCheckpoint = checkpoint;
+    }
+
+    public void SetPlayerName(string playerName)
+    {
+        this.playerName = playerName;
+    }
+
+    public string GetPlayerName()
+    {
+        return playerName;
     }
 
     public Vector3 GetCurrentCheckpoint()
@@ -40,8 +79,16 @@ public class GameManager : MonoBehaviour
         return currentLevel;
     }
 
+    public int GetCurrentRestarts()
+    {
+        return restartCount;
+    }
+
     public void LeaveLevel()
     {
+        // Reset count
+        restartCount = 0;
+
         // Reset checkpoint
         currentCheckpoint = Vector3.back;
 
@@ -54,12 +101,18 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
+        // Increment count
+        restartCount++;
+
         // Reload same scene
         TransitionManager.instance.ReloadScene();
     }
 
     public void NextLevel()
     {
+        // Reset count
+        restartCount = 0;
+
         // Reset checkpoint
         currentCheckpoint = Vector3.back;
 

@@ -29,6 +29,6 @@ public class CameraHandler : MonoBehaviour
         virtualCamera.m_Follow = PlayerController.instance.transform;
 
         // Set boundary based on tilemap
-        confiner.m_BoundingShape2D = LeverToggleTilemap.instance.GetBoundingCollider();
+        confiner.m_BoundingShape2D = MapBoundaryManager.instance.GetBoundingCollider();
     }
 }
