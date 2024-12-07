@@ -48,6 +48,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 7468912b674017547b4d83177f163fd7, type: 3}
     - {fileID: 2800000, guid: d40f697124a99344eb52e461848ee7f3, type: 3}
     - {fileID: 2800000, guid: 33e0b1322508b6c4d9b44fe2479367f7, type: 3}
+    - {fileID: 2800000, guid: c49d2cb6087a5d749ba4dc58afb7fb97, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -92,6 +93,9 @@ SpriteAtlas:
   - {fileID: 1937734597, guid: 8aaa4f045c78696498a9f6782e3c1a25, type: 3}
   - {fileID: -1619459194, guid: 8aaa4f045c78696498a9f6782e3c1a25, type: 3}
   - {fileID: -1296275639, guid: 8aaa4f045c78696498a9f6782e3c1a25, type: 3}
+  - {fileID: -342469562, guid: c49d2cb6087a5d749ba4dc58afb7fb97, type: 3}
+  - {fileID: 1073911982, guid: c49d2cb6087a5d749ba4dc58afb7fb97, type: 3}
+  - {fileID: 501594695, guid: c49d2cb6087a5d749ba4dc58afb7fb97, type: 3}
   - {fileID: 21300000, guid: 7468912b674017547b4d83177f163fd7, type: 3}
   m_PackedSpriteNamesToIndex:
   - Spikes_7
@@ -133,6 +137,9 @@ SpriteAtlas:
   - World Ground Tileset_48
   - World Ground Tileset_32
   - World Ground Tileset_33
+  - Audio Icons_0
+  - Audio Icons_1
+  - Audio Icons_2
   - Grass Tile (Single)
   m_RenderDataMap: {}
   m_Tag: Sprite Atlas

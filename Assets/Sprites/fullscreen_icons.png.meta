@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c49d2cb6087a5d749ba4dc58afb7fb97
+guid: ba5cb7690885bdb47bdebb61b5d6fd7c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Audio Icons_0
+      name: fullscreen_icons_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 28
-        width: 28
-        height: 28
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,41 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46a46d9dd9821cd4db8803cee6b4b6f1
-      internalID: -342469562
+      spriteID: 74e997f9eb353a841ad50d8fe061084a
+      internalID: 612812878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Audio Icons_1
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 28
-        width: 28
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: acd0ca55f05d483478bfce848becfa6a
-      internalID: 1073911982
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Audio Icons_2
+      name: fullscreen_icons_1
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 28
-        height: 28
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,8 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fb415c8fcfd9344ab12143587535a79
-      internalID: 501594695
+      spriteID: d684f347858ff224ab7bdfff47e8ca00
+      internalID: -350219505
       vertices: []
       indices: 
       edges: []
@@ -189,9 +168,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Audio Icons_1: 1073911982
-      Audio Icons_2: 501594695
-      Audio Icons_0: -342469562
+      fullscreen_icons_0: 612812878
+      fullscreen_icons_1: -350219505
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
